@@ -23,7 +23,8 @@
         "semi": true,
         "jsxSingleQuote": true,
         "singleQuote": false,
-        "useTabs": true
+        "useTabs": true,
+        "endOfLine": "auto"
       }
     ]
   }
