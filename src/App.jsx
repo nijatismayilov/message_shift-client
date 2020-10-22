@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
 
-const App = () => {
+const App = (props) => {
 	return (
 		<div className='app'>
 			<div>
