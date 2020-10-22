@@ -1,16 +1,17 @@
 import React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Switch } from "react-router-dom";
 
-const App = (props) => {
+import ProtectedRoute from "components/ProtectedRoute";
+
+import Login from "views/Login";
+import Main from "views/Main";
+
+const App = () => {
 	return (
 		<div className='app'>
-			<div>
-				<Link to='/projects'>Projects</Link>
-			</div>
-
 			<Switch>
-				<Route exact path='/' component={() => <div>Dashboard</div>} />
-				<Route exact path='/projects' component={() => <div>projects</div>} />
+				<ProtectedRoute exact path='/' isMain={true} component={() => <Main />} />
+				<ProtectedRoute path='/login' isMain={false} component={() => <Login />} />
 			</Switch>
 		</div>
 	);
