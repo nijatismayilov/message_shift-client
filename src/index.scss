@@ -1,0 +1,16 @@
+@import './printify/printify.min.css';
+
+@import './styles/fonts';
+@import './styles/variables'; 
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden;
+}
