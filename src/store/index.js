@@ -15,6 +15,6 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...mi
 sagaMiddleware.run(rootSaga);
 
 const token = getToken();
-if (token) store.dispatch({ type: "AUHTENTICATE_USER_START" });
+if (token) store.dispatch({ type: "AUHTENTICATE_USER_SUCCESS" });
 
 export default store;

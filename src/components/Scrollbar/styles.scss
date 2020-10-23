@@ -1,0 +1,31 @@
+.scrollbar-thumb-vertical {
+  background: #babac0;
+  border-radius: 16px;
+  cursor: pointer;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+}
+
+.scrollbar-thumb-horizontal {
+  background: #babac0;
+  border-radius: 16px;
+  cursor: pointer;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+}
+
+.scrollbar-view {
+  &-horizontal {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-vertical {
+    display: flex;
+    flex-direction: column;
+  }
+}
