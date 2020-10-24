@@ -11,6 +11,18 @@
 
   &__link {
     color: #768DAF;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-decoration: underline;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 
