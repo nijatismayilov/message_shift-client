@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put, all } from "redux-saga/effects";
 
 import userService from "services/userService";
 
@@ -18,7 +18,14 @@ import {
 	registerUserFailure,
 } from "./actions";
 
-import { setToken, removeToken } from "utils/localStorage";
+import {
+	setToken as setTokenToSession,
+	removeToken as removeTokenFromSession,
+} from "utils/sessionStorage";
+import {
+	setToken as setTokenToLocal,
+	removeToken as removeTokenFromLocal,
+} from "utils/localStorage";
 
 export function* authenticateUserStart() {
 	yield takeLatest(AUHTENTICATE_USER_START, authenticateUserAsync);
@@ -37,10 +44,14 @@ export function* logout() {
 }
 
 function* authenticateUserAsync({ payload }) {
+	const { credentials, remember } = payload;
+
 	try {
-		const { data } = yield userService.signIn(payload);
-		yield call(setToken, data);
-		yield put(authenticateUserSuccess(data));
+		const { data: token } = yield userService.signIn(credentials);
+		if (remember) yield call(setTokenToLocal, token);
+		else yield call(setTokenToSession, token);
+
+		yield put(authenticateUserSuccess(token));
 	} catch (err) {
 		yield put(authenticateUserFailure(err.message));
 	}
@@ -57,13 +68,15 @@ function* fetchUserAsync() {
 
 function* registerUserAsync({ payload }) {
 	try {
-		const { data } = yield userService.signUp(payload);
-		yield put(registerUserSuccess(data));
+		const { data: token } = yield userService.signUp(payload);
+
+		yield call(setTokenToSession, token);
+		yield put(registerUserSuccess(token));
 	} catch (err) {
 		yield put(registerUserFailure(err.message));
 	}
 }
 
 function* logoutAsync() {
-	yield call(removeToken);
+	yield all([call(removeTokenFromSession), call(removeTokenFromLocal)]);
 }
