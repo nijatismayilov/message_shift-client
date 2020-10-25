@@ -22,6 +22,13 @@ const App = () => {
 			dispatch(actions.addNotification(newNotification))
 		);
 		eventBus.on("remove-notification", (id) => dispatch(actions.removeNotification(id)));
+
+		return () => {
+			eventBus.remove("new-notification", (newNotification) =>
+				dispatch(actions.addNotification(newNotification))
+			);
+			eventBus.remove("remove-notification", (id) => dispatch(actions.removeNotification(id)));
+		};
 	}, []);
 
 	return (
