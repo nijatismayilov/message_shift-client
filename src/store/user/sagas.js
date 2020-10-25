@@ -50,9 +50,8 @@ export function* logout() {
 function* authenticateUserAsync({ payload }) {
 	const { credentials, remember } = payload;
 
-	const newNotification = {
-		id: generateKey("authenticate"),
-	};
+	let message;
+	let type;
 
 	try {
 		const { data: token } = yield userService.signIn(credentials);
@@ -61,14 +60,17 @@ function* authenticateUserAsync({ payload }) {
 		else yield call(setTokenToSession, token);
 
 		yield put(authenticateUserSuccess(token));
-		newNotification.message = "You logged in succesfully";
-		newNotification.type = "success";
+
+		message = "You are signed in succesfully";
+		type = "success";
 	} catch (err) {
 		yield put(authenticateUserFailure(err.message));
-		newNotification.message = "There was an error while logging in";
-		newNotification.type = "error";
+
+		message = err.message;
+		type = "error";
 	}
 
+	const newNotification = { id: generateKey("authenticate"), message, type };
 	eventBus.dispatch("new-notification", newNotification);
 }
 

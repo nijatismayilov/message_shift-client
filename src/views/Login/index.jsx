@@ -1,6 +1,6 @@
-import React, { memo } from "react";
+import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
 
 import { authenticateUserStart, registerUserStart } from "store/user/actions";
@@ -15,9 +15,15 @@ import Logo from "assets/img/logo.svg";
 import "./styles.scss";
 
 const Login = (props) => {
-	const { authenticateUser, registerUser, match } = props;
+	const { match } = props;
+
+	const dispatch = useDispatch();
 
 	const fade = useSpring(pageTransition);
+
+	const handleAuthenticateUser = (credentials) => dispatch(authenticateUserStart(credentials));
+
+	const handleRegisterUser = (userInfo) => dispatch(registerUserStart(userInfo));
 
 	return (
 		<animated.div style={fade} className='login-page py-10'>
@@ -30,11 +36,11 @@ const Login = (props) => {
 
 				<Switch>
 					<Route exact path={`${match.path}`}>
-						<SignIn authenticateUser={authenticateUser} />
+						<SignIn authenticateUser={handleAuthenticateUser} />
 					</Route>
 
 					<Route path={`${match.path}/register`}>
-						<SignUp registerUser={registerUser} />
+						<SignUp registerUser={handleRegisterUser} />
 					</Route>
 				</Switch>
 			</div>
@@ -42,9 +48,4 @@ const Login = (props) => {
 	);
 };
 
-const mapDispatchToProps = (dispatch) => ({
-	authenticateUser: (credentials) => dispatch(authenticateUserStart(credentials)),
-	registerUser: (info) => dispatch(registerUserStart(info)),
-});
-
-export default memo(connect(null, mapDispatchToProps)(withRouter(Login)));
+export default withRouter(Login);
