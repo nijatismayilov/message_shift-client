@@ -4,7 +4,7 @@ import { useSpring, animated } from "react-spring";
 
 import useSignUpForm from "hooks/useSignUpForm";
 
-import pageTransition from "animation/pageTransition";
+import pageTransition from "animations/pageTransition";
 
 const SignUp = (props) => {
 	const { history } = props;

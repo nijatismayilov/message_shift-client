@@ -9,6 +9,16 @@
   box-sizing: border-box;
 }
 
+#alerts {
+  position: fixed;
+  z-index: 10000;
+
+  display: flex;
+  flex-direction: column;
+
+  
+}
+
 .app {
   width: 100vw !important;
   height: 100vh !important;

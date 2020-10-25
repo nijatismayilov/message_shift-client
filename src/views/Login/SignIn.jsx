@@ -4,7 +4,7 @@ import { useSpring, animated } from "react-spring";
 
 import useSignInForm from "hooks/useSignInForm";
 
-import pageTransition from "animation/pageTransition";
+import pageTransition from "animations/pageTransition";
 
 const SignIn = (props) => {
 	const { match } = props;

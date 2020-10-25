@@ -22,6 +22,6 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(...middl
 sagaMiddleware.run(rootSaga);
 
 const token = getTokenFromSession() || getTokenFromLocal();
-if (token) store.dispatch({ type: "AUHTENTICATE_USER_SUCCESS" });
+if (token) store.dispatch({ type: "AUHTENTICATE_USER_SUCCESS", payload: token });
 
 export default store;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { useSpring, animated } from "react-spring";
@@ -8,7 +8,7 @@ import { authenticateUserStart, registerUserStart } from "store/user/actions";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
-import pageTransition from "animation/pageTransition";
+import pageTransition from "animations/pageTransition";
 
 import Logo from "assets/img/logo.svg";
 
@@ -47,4 +47,4 @@ const mapDispatchToProps = (dispatch) => ({
 	registerUser: (info) => dispatch(registerUserStart(info)),
 });
 
-export default connect(null, mapDispatchToProps)(withRouter(Login));
+export default memo(connect(null, mapDispatchToProps)(withRouter(Login)));

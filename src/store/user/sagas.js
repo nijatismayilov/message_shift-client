@@ -27,6 +27,10 @@ import {
 	removeToken as removeTokenFromLocal,
 } from "utils/localStorage";
 
+import eventBus from "eventBus";
+
+import generateKey from "utils/generateKey";
+
 export function* authenticateUserStart() {
 	yield takeLatest(AUHTENTICATE_USER_START, authenticateUserAsync);
 }
@@ -46,15 +50,26 @@ export function* logout() {
 function* authenticateUserAsync({ payload }) {
 	const { credentials, remember } = payload;
 
+	const newNotification = {
+		id: generateKey("authenticate"),
+	};
+
 	try {
 		const { data: token } = yield userService.signIn(credentials);
+
 		if (remember) yield call(setTokenToLocal, token);
 		else yield call(setTokenToSession, token);
 
 		yield put(authenticateUserSuccess(token));
+		newNotification.message = "You logged in succesfully";
+		newNotification.type = "success";
 	} catch (err) {
 		yield put(authenticateUserFailure(err.message));
+		newNotification.message = "There was an error while logging in";
+		newNotification.type = "error";
 	}
+
+	eventBus.dispatch("new-notification", newNotification);
 }
 
 function* fetchUserAsync() {
