@@ -4,7 +4,7 @@ import { useSpring, animated } from "react-spring";
 
 import { logout } from "store/user/actions";
 
-import pageTransition from "animation/pageTransition";
+import pageTransition from "animations/pageTransition";
 
 import "./styles.scss";
 
