@@ -24,81 +24,78 @@ const SignIn = (props) => {
 
 	return (
 		<animated.div style={fade} className='w-100'>
-			<div className='row flex justify-center'>
-				<div className='col-lg-3'>
-					<form className='sign-in' onSubmit={handleSubmit}>
-						<div className='sign-in__input-group'>
-							<input
-								type='email'
-								name='email'
-								id='email'
-								autoComplete='new-password'
-								className={`sign-in__input ${errors.email ? "sign-in__input--error" : ""}`}
-								value={credentials.email}
-								onChange={handleChange}
-							/>
-							<label
-								htmlFor='email'
-								className={`sign-in__label ${credentials.email ? "sign-in__label--active" : ""}`}
-							>
-								Your Email
-							</label>
+			<form className='sign-in' onSubmit={handleSubmit}>
+				<div className='sign-in__input-group'>
+					<input
+						type='email'
+						name='email'
+						id='email'
+						autoComplete='new-password'
+						className={`sign-in__input ${errors.email ? "sign-in__input--error" : ""}`}
+						value={credentials.email}
+						onChange={handleChange}
+					/>
+					<label
+						htmlFor='email'
+						className={`sign-in__label ${credentials.email ? "sign-in__label--active" : ""}`}
+					>
+						Your Email
+					</label>
 
-							<p
-								className={`sign-in__input-error ${
-									errors.email ? "sign-in__input-error--visible" : ""
-								}`}
-							>
-								{errors.email}
-							</p>
-						</div>
-
-						<div className='sign-in__input-group'>
-							<input
-								type='password'
-								name='password'
-								id='password'
-								autoComplete='new-password'
-								className={`sign-in__input ${errors.password ? "sign-in__input--error" : ""}`}
-								value={credentials.password}
-								onChange={handleChange}
-							/>
-							<label
-								htmlFor='password'
-								className={`sign-in__label ${credentials.password ? "sign-in__label--active" : ""}`}
-							>
-								Your Password
-							</label>
-
-							<p
-								className={`sign-in__input-error ${
-									errors.password ? "sign-in__input-error--visible" : ""
-								}`}
-							>
-								{errors.password}
-							</p>
-						</div>
-
-						<div className='sign-in__checkbox-group'>
-							<input
-								type='checkbox'
-								name='rememberMe'
-								id='rememberMe'
-								className='sign-in__checkbox'
-								checked={remember}
-								onChange={handleCheckboxChange}
-							/>
-							<label htmlFor='rememberMe' className='sign-in__checkbox-label'>
-								Keep me signed in
-							</label>
-						</div>
-
-						<button type='submit' className='sign-in__btn-submit' formNoValidate>
-							Sign in
-						</button>
-					</form>
+					<p
+						className={`sign-in__input-error ${
+							errors.email ? "sign-in__input-error--visible" : ""
+						}`}
+					>
+						{errors.email}
+					</p>
 				</div>
-			</div>
+
+				<div className='sign-in__input-group'>
+					<input
+						type='password'
+						name='password'
+						id='password'
+						autoComplete='new-password'
+						className={`sign-in__input ${errors.password ? "sign-in__input--error" : ""}`}
+						value={credentials.password}
+						onChange={handleChange}
+					/>
+					<label
+						htmlFor='password'
+						className={`sign-in__label ${credentials.password ? "sign-in__label--active" : ""}`}
+					>
+						Your Password
+					</label>
+
+					<p
+						className={`sign-in__input-error ${
+							errors.password ? "sign-in__input-error--visible" : ""
+						}`}
+					>
+						{errors.password}
+					</p>
+				</div>
+
+				<div className='sign-in__checkbox-group'>
+					<input
+						type='checkbox'
+						name='rememberMe'
+						id='rememberMe'
+						className='sign-in__checkbox'
+						checked={remember}
+						onChange={handleCheckboxChange}
+					/>
+					<label htmlFor='rememberMe' className='sign-in__checkbox-label'>
+						<span className='sign-in__checkbox-label-indicator'></span>
+						Keep me signed in
+					</label>
+				</div>
+
+				<button type='submit' className='sign-in__btn-submit' formNoValidate>
+					Sign in
+				</button>
+			</form>
 
 			<div className='flex justify-center align-center'>
 				<p>Don't have an account yet?</p>

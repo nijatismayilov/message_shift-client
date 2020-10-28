@@ -28,8 +28,11 @@ const useSignUpForm = (callback) => {
 	};
 
 	useEffect(() => {
-		Object.keys(errors).length === 0 && isSubmitting && callback(info);
-	});
+		Object.keys(errors).length === 0 &&
+			isSubmitting &&
+			callback({ ...info, confirmPassword: undefined }) &&
+			setIsSubmitting(false);
+	}, [errors, isSubmitting, callback, info, setIsSubmitting]);
 
 	return { info, handleChange, handleSubmit, errors };
 };

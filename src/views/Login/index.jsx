@@ -32,17 +32,21 @@ const Login = (props) => {
 					<img src={Logo} alt='Logo' className='logo-box__img' />
 				</div>
 
-				<h2 className='login-page__title mb-15'>Welcome to MShift</h2>
+				<h2 className='login-page__title mb-5 mb-xl-15'>Welcome to MShift</h2>
 
-				<Switch>
-					<Route exact path={`${match.path}`}>
-						<SignIn authenticateUser={handleAuthenticateUser} />
-					</Route>
+				<div className='row flex justify-center'>
+					<div className='col-10 col-sm-8 col-md-6 col-lg-4 col-xl-3'>
+						<Switch>
+							<Route exact path={`${match.path}`}>
+								<SignIn authenticateUser={handleAuthenticateUser} />
+							</Route>
 
-					<Route path={`${match.path}/register`}>
-						<SignUp registerUser={handleRegisterUser} />
-					</Route>
-				</Switch>
+							<Route path={`${match.path}/register`}>
+								<SignUp registerUser={handleRegisterUser} />
+							</Route>
+						</Switch>
+					</div>
+				</div>
 			</div>
 		</animated.div>
 	);
