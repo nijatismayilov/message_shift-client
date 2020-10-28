@@ -23,7 +23,10 @@ axiosInstance.interceptors.request.use((req) => {
 });
 
 axiosInstance.interceptors.response.use(null, (err) => {
-	throw new Error(err.response.data.message);
+	const { error } = err.response.data;
+	const newError = new Error(error.message);
+	newError.status = error.status;
+	throw newError;
 });
 
 export default axiosInstance;

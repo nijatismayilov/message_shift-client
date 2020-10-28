@@ -1,7 +1,7 @@
-@import './printify/printify.min.css';
+@import "./printify/printify.min.css";
 
-@import './styles/fonts';
-@import './styles/variables'; 
+@import "./styles/fonts";
+@import "./styles/variables";
 
 * {
   margin: 0;
@@ -16,8 +16,6 @@
 
   display: flex;
   flex-direction: column;
-
-  
 }
 
 .app {
