@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 
@@ -7,20 +7,12 @@ import useSignInForm from "hooks/useSignInForm";
 import pageTransition from "animations/pageTransition";
 
 const SignIn = (props) => {
-	const { match } = props;
-	const { authenticateUser } = props;
+	const { match, staySignedIn } = props;
+	const { authenticateUser, setStaySignedIn } = props;
 
-	const [remember, setRemember] = useState(false);
-	const { credentials, errors, handleChange, handleSubmit } = useSignInForm(
-		authenticateUser,
-		remember
-	);
+	const { credentials, errors, handleChange, handleSubmit } = useSignInForm(authenticateUser);
 
 	const fade = useSpring(pageTransition);
-
-	const handleCheckboxChange = () => {
-		setRemember(!remember);
-	};
 
 	return (
 		<animated.div style={fade} className='w-100'>
@@ -83,8 +75,8 @@ const SignIn = (props) => {
 						name='rememberMe'
 						id='rememberMe'
 						className='sign-in__checkbox'
-						checked={remember}
-						onChange={handleCheckboxChange}
+						checked={staySignedIn}
+						onChange={setStaySignedIn}
 					/>
 					<label htmlFor='rememberMe' className='sign-in__checkbox-label'>
 						<span className='sign-in__checkbox-label-indicator'></span>

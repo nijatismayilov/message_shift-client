@@ -1,12 +1,18 @@
-import { takeLatest, call, put, all } from "redux-saga/effects";
+import { takeLatest, takeEvery, call, put } from "redux-saga/effects";
 
+import authService from "services/authService";
 import userService from "services/userService";
+
+import eventBus from "eventBus";
+
+import generateKey from "utils/generateKey";
 
 import {
 	AUHTENTICATE_USER_START,
 	FETCH_USER_START,
 	REGISTER_USER_START,
-	LOGOUT,
+	LOGOUT_USER_START,
+	SET_STAY_SIGNED_IN,
 } from "./actionTypes";
 
 import {
@@ -16,62 +22,80 @@ import {
 	fetchUserFailure,
 	registerUserSuccess,
 	registerUserFailure,
+	logoutUserSuccess,
+	logoutUserFailure,
+	clearError,
+	setStaySignedIn,
 } from "./actions";
 
 import {
-	setToken as setTokenToSession,
-	removeToken as removeTokenFromSession,
-} from "utils/sessionStorage";
-import {
-	setToken as setTokenToLocal,
-	removeToken as removeTokenFromLocal,
+	setAccessToken,
+	setRefreshToken,
+	removeAccessToken,
+	removeRefreshToken,
+	getRefreshToken,
+	setStaySignedIn as setStaySignedInToStorage,
+	removeStaySignedIn,
 } from "utils/localStorage";
-
-import eventBus from "eventBus";
-
-import generateKey from "utils/generateKey";
 
 export function* authenticateUserStart() {
 	yield takeLatest(AUHTENTICATE_USER_START, authenticateUserAsync);
-}
-
-export function* fetchUserStart() {
-	yield takeLatest(FETCH_USER_START, fetchUserAsync);
 }
 
 export function* registerUserStart() {
 	yield takeLatest(REGISTER_USER_START, registerUserAsync);
 }
 
-export function* logout() {
-	yield takeLatest(LOGOUT, logoutAsync);
+export function* fetchUserStart() {
+	yield takeLatest(FETCH_USER_START, fetchUserAsync);
+}
+
+export function* logoutUserStart() {
+	yield takeLatest(LOGOUT_USER_START, logoutUserAsync);
+}
+
+export function* setSignedIn() {
+	yield takeEvery(SET_STAY_SIGNED_IN, setSignedInAsync);
 }
 
 function* authenticateUserAsync({ payload }) {
-	const { credentials, remember } = payload;
-
-	let message;
-	let type;
+	const { credentials } = payload;
 
 	try {
-		const { data: token } = yield userService.signIn(credentials);
+		const { data } = yield authService.signIn(credentials);
+		const { accessToken, refreshToken } = data;
 
-		if (remember) yield call(setTokenToLocal, token);
-		else yield call(setTokenToSession, token);
+		yield call(setAccessToken, accessToken);
+		yield call(setRefreshToken, refreshToken);
 
-		yield put(authenticateUserSuccess(token));
-
-		message = "You are signed in succesfully";
-		type = "success";
+		yield put(authenticateUserSuccess(accessToken));
 	} catch (err) {
+		yield put(clearError());
 		yield put(authenticateUserFailure(err.message));
-
-		message = err.message;
-		type = "error";
 	}
+}
 
-	const newNotification = { id: generateKey("authenticate"), message, type };
-	eventBus.dispatch("new-notification", newNotification);
+function* registerUserAsync({ payload }) {
+	try {
+		const { data } = yield authService.signUp(payload);
+		const { email, accessToken, refreshToken } = data;
+
+		yield call(setAccessToken, accessToken);
+		yield call(setRefreshToken, refreshToken);
+
+		yield put(registerUserSuccess(accessToken));
+		yield put(setStaySignedIn(true));
+		yield put(setStaySignedInToStorage(true));
+
+		eventBus.dispatch("new-notification", {
+			id: generateKey("register"),
+			type: "success",
+			message: `You were succesfully registered with the email ${email}`,
+		});
+	} catch (err) {
+		yield put(clearError());
+		yield put(registerUserFailure(err.message));
+	}
 }
 
 function* fetchUserAsync() {
@@ -79,21 +103,32 @@ function* fetchUserAsync() {
 		const { data } = yield userService.loadDetails();
 		yield put(fetchUserSuccess(data));
 	} catch (err) {
+		yield put(clearError());
 		yield put(fetchUserFailure(err.message));
 	}
 }
 
-function* registerUserAsync({ payload }) {
+function* logoutUserAsync() {
 	try {
-		const { data: token } = yield userService.signUp(payload);
+		const refreshToken = getRefreshToken();
 
-		yield call(setTokenToSession, token);
-		yield put(registerUserSuccess(token));
+		if (!refreshToken)
+			throw Error("There occured a problem while logging you out. Please try again");
+
+		yield authService.signOut(refreshToken);
+
+		yield call(removeAccessToken);
+		yield call(removeRefreshToken);
+		yield call(removeStaySignedIn);
+
+		yield put(logoutUserSuccess());
 	} catch (err) {
-		yield put(registerUserFailure(err.message));
+		yield put(clearError());
+		yield put(logoutUserFailure(err.message));
 	}
 }
 
-function* logoutAsync() {
-	yield all([call(removeTokenFromSession), call(removeTokenFromLocal)]);
+function* setSignedInAsync({ payload }) {
+	if (payload) yield call(setStaySignedInToStorage, true);
+	else yield call(removeStaySignedIn);
 }

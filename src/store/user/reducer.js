@@ -6,6 +6,7 @@ const initialState = {
 	user: {},
 	loading: false,
 	error: "",
+	staySignedIn: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,6 +17,12 @@ const reducer = (state = initialState, action) => {
 				...state,
 				loading: true,
 				isAuth: false,
+			};
+
+		case actionTypes.LOGOUT_USER_START:
+			return {
+				...state,
+				loading: true,
 			};
 
 		case actionTypes.AUHTENTICATE_USER_SUCCESS:
@@ -50,15 +57,28 @@ const reducer = (state = initialState, action) => {
 				loading: false,
 			};
 
+		case actionTypes.LOGOUT_USER_SUCCESS:
+			return initialState;
+
 		case actionTypes.FETCH_USER_FAILURE:
+		case actionTypes.LOGOUT_USER_FAILURE:
 			return {
 				...state,
 				error: action.payload,
 				loading: false,
 			};
 
-		case actionTypes.LOGOUT:
-			return initialState;
+		case actionTypes.CLEAR_USER_ERROR:
+			return {
+				...state,
+				error: "",
+			};
+
+		case actionTypes.SET_STAY_SIGNED_IN:
+			return {
+				...state,
+				staySignedIn: action.payload,
+			};
 
 		default:
 			return state;

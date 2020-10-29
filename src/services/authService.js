@@ -1,12 +1,16 @@
 import axios from "../axios";
 
-const signIn = async (credentials) => await axios.post("auth/signin", credentials);
+const signIn = async (credentials) => await axios.post("/auth/signin", credentials);
 
-const signUp = async (userData) => await axios.post("auth/signup", userData);
+const signUp = async (userData) => await axios.post("/auth/signup", userData);
 
-const refreshToken = async (token) => await axios.post("auth/refreshtoken", token);
+const refreshToken = async (refreshToken) => {
+	await axios.post("/auth/refreshtoken", { refreshToken });
+};
 
-const signOut = async (token) => await axios.delete("auth/signout", token);
+const signOut = async (refreshToken) => {
+	await axios.delete(`/auth/signout/${refreshToken}`);
+};
 
 export default {
 	signIn,

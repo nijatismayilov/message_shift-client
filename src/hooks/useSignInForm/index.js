@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import validate from "./validate";
 
-const useSignInForm = (callback, remember) => {
+const useSignInForm = (callback) => {
 	const [credentials, setCredentials] = useState({
 		email: "",
 		password: "",
@@ -27,9 +27,9 @@ const useSignInForm = (callback, remember) => {
 	useEffect(() => {
 		Object.keys(errors).length === 0 &&
 			isSubmitting &&
-			callback({ credentials, remember }) &&
+			callback({ credentials }) &&
 			setIsSubmitting(false);
-	}, [errors, isSubmitting, setIsSubmitting, credentials, remember, callback]);
+	}, [errors, isSubmitting, setIsSubmitting, credentials, callback]);
 
 	return { credentials, handleChange, handleSubmit, errors };
 };

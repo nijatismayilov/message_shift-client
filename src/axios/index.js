@@ -1,6 +1,5 @@
 import axios from "axios";
-import { getToken as getTokenFromSession } from "utils/sessionStorage";
-import { getToken as getTokenFromLocal } from "utils/localStorage";
+import { getAccessToken } from "utils/localStorage";
 
 const baseURl =
 	process.env.NODE_ENV === "production"
@@ -16,7 +15,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((req) => {
-	let token = getTokenFromSession() || getTokenFromLocal();
+	let token = getAccessToken();
 	req.headers.Authorization = `Bearer ${token}`;
 
 	return req;

@@ -1,9 +1,11 @@
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
 
-import { authenticateUserStart, registerUserStart } from "store/user/actions";
+import { authenticateUserStart, registerUserStart, setStaySignedIn } from "store/user/actions";
+
+import { selectUserStaySignedIn } from "store/user/selectors";
 
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -17,6 +19,8 @@ import "./styles.scss";
 const Login = (props) => {
 	const { match } = props;
 
+	const staySignedIn = useSelector(selectUserStaySignedIn);
+
 	const dispatch = useDispatch();
 
 	const fade = useSpring(pageTransition);
@@ -24,6 +28,8 @@ const Login = (props) => {
 	const handleAuthenticateUser = (credentials) => dispatch(authenticateUserStart(credentials));
 
 	const handleRegisterUser = (userInfo) => dispatch(registerUserStart(userInfo));
+
+	const handleSetStaySignedIn = () => dispatch(setStaySignedIn(!staySignedIn));
 
 	return (
 		<animated.div style={fade} className='login-page py-10'>
@@ -38,7 +44,11 @@ const Login = (props) => {
 					<div className='col-10 col-sm-8 col-md-6 col-lg-4 col-xl-3'>
 						<Switch>
 							<Route exact path={`${match.path}`}>
-								<SignIn authenticateUser={handleAuthenticateUser} />
+								<SignIn
+									authenticateUser={handleAuthenticateUser}
+									setStaySignedIn={handleSetStaySignedIn}
+									staySignedIn={staySignedIn}
+								/>
 							</Route>
 
 							<Route path={`${match.path}/register`}>
