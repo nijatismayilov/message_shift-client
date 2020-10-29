@@ -30,7 +30,7 @@ const Notification = (props) => {
 	const useMountEffect = () => {
 		const id = setTimeout(() => {
 			handleRemove();
-		}, 2000);
+		}, 3000);
 
 		return () => {
 			clearTimeout(id);
@@ -41,9 +41,13 @@ const Notification = (props) => {
 
 	return (
 		<motion.li
-			initial={{ opacity: 0, scale: 0.8 }}
-			animate={{ opacity: 1, scale: 1 }}
-			exit={{ opacity: 0, scale: 0, transition: { duration: 0.2 } }}
+			initial={{ opacity: 0, scale: 0.1 }}
+			animate={{
+				opacity: 1,
+				scale: 1,
+				transition: { ease: [0.18, 0.89, 0.43, 1.19], duration: 0.2 },
+			}}
+			exit={{ opacity: 0, transition: { duration: 0.2 } }}
 			layoutTransition={{ duration: 0.2 }}
 			className={`notification notification--${type}`}
 		>

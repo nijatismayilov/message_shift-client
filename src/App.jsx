@@ -1,35 +1,54 @@
 import React, { useReducer, useEffect } from "react";
 import { Switch } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
+import { selectIsAuth, selectUserError, selectUserStaySignedIn } from "store/user/selectors";
+
+import { logoutUserStart } from "store/user/actions";
 
 import { init, actions, reducer } from "appReducer";
 
 import Login from "views/Login";
 import Main from "views/Main";
 
-import eventBus from "eventBus";
-
 import Scrollbar from "components/Scrollbar";
 import ProtectedRoute from "components/ProtectedRoute";
 import Notifications from "components/NotificationsContainer";
 
+import appMount from "lifecycleMethods/appMount";
+import appUnMount from "lifecycleMethods/appUnMount";
+
+import dispatchNewNotification from "utils/dispatchNewNotification";
+
 import "./index.scss";
 
 const App = () => {
-	const [state, dispatch] = useReducer(reducer, init);
+	const [state, appDispatch] = useReducer(reducer, init);
+
+	const isAuth = useSelector(selectIsAuth);
+	const userError = useSelector(selectUserError);
+	const staySignedIn = useSelector(selectUserStaySignedIn);
+
+	const storeDispatch = useDispatch();
+
+	const newNotification = (notification) => appDispatch(actions.addNotification(notification));
+	const removeNotification = (id) => appDispatch(actions.removeNotification(id));
+
+	const handleUserLogout = async () => {
+		if (isAuth && !staySignedIn) await storeDispatch(logoutUserStart());
+	};
+
+	const handleUseEffect = () => {
+		appMount(newNotification, removeNotification);
+
+		return appUnMount(newNotification, removeNotification, handleUserLogout);
+	};
+
+	useEffect(handleUseEffect, []);
 
 	useEffect(() => {
-		eventBus.on("new-notification", (newNotification) =>
-			dispatch(actions.addNotification(newNotification))
-		);
-		eventBus.on("remove-notification", (id) => dispatch(actions.removeNotification(id)));
-
-		return () => {
-			eventBus.remove("new-notification", (newNotification) =>
-				dispatch(actions.addNotification(newNotification))
-			);
-			eventBus.remove("remove-notification", (id) => dispatch(actions.removeNotification(id)));
-		};
-	}, []);
+		if (userError) dispatchNewNotification("user", "error", userError);
+	}, [userError]);
 
 	return (
 		<div className='app'>

@@ -47,7 +47,27 @@ export const registerUserFailure = (err) => ({
 	payload: err,
 });
 
-// action for logout
-export const logout = () => ({
-	type: actionTypes.LOGOUT,
+// action for logging user out
+export const logoutUserStart = () => ({
+	type: actionTypes.LOGOUT_USER_START,
+});
+
+export const logoutUserSuccess = () => ({
+	type: actionTypes.LOGOUT_USER_SUCCESS,
+});
+
+export const logoutUserFailure = (err) => ({
+	type: actionTypes.LOGOUT_USER_FAILURE,
+	payload: err,
+});
+
+// action for cleaning the error message
+export const clearError = () => ({
+	type: actionTypes.CLEAR_USER_ERROR,
+});
+
+// action for setting user signed in
+export const setStaySignedIn = (status) => ({
+	type: actionTypes.SET_STAY_SIGNED_IN,
+	payload: status,
 });

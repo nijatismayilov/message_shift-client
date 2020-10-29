@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
 
-import { logout } from "store/user/actions";
+import { logoutUserStart } from "store/user/actions";
 
 import pageTransition from "animations/pageTransition";
 
@@ -13,9 +13,7 @@ const Main = () => {
 
 	const fade = useSpring(pageTransition);
 
-	const handleLogout = () => {
-		dispatch(logout());
-	};
+	const handleLogout = () => dispatch(logoutUserStart());
 
 	return (
 		<animated.div style={fade} className='app-main'>
