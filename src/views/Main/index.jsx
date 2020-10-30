@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
 
-import { logoutUserStart } from "store/user/actions";
+import { fetchUserStart, logoutUserStart } from "store/user/actions";
 
 import pageTransition from "animations/pageTransition";
 
@@ -13,7 +13,14 @@ const Main = () => {
 
 	const fade = useSpring(pageTransition);
 
+	const handleFetchUser = () => dispatch(fetchUserStart());
 	const handleLogout = () => dispatch(logoutUserStart());
+
+	const onMount = () => {
+		handleFetchUser();
+	};
+
+	useEffect(onMount, []);
 
 	return (
 		<animated.div style={fade} className='app-main'>

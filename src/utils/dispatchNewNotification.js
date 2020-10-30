@@ -2,7 +2,7 @@ import eventBus from "eventBus";
 
 import generateKey from "./generateKey";
 
-const dispatchCustomEvent = (info, type, message) => {
+const dispatchNewNotification = (info = "default", type, message) => {
 	const newNotification = {
 		id: generateKey(info),
 		type,
@@ -12,4 +12,4 @@ const dispatchCustomEvent = (info, type, message) => {
 	eventBus.dispatch("new-notification", newNotification);
 };
 
-export default dispatchCustomEvent;
+export default dispatchNewNotification;

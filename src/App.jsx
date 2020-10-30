@@ -2,7 +2,7 @@ import React, { useReducer, useEffect } from "react";
 import { Switch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { selectIsAuth, selectUserError, selectUserStaySignedIn } from "store/user/selectors";
+import { selectIsAuth, selectUserStaySignedIn } from "store/user/selectors";
 
 import { logoutUserStart } from "store/user/actions";
 
@@ -18,15 +18,12 @@ import Notifications from "components/NotificationsContainer";
 import appMount from "lifecycleMethods/appMount";
 import appUnMount from "lifecycleMethods/appUnMount";
 
-import dispatchNewNotification from "utils/dispatchNewNotification";
-
 import "./index.scss";
 
 const App = () => {
 	const [state, appDispatch] = useReducer(reducer, init);
 
 	const isAuth = useSelector(selectIsAuth);
-	const userError = useSelector(selectUserError);
 	const staySignedIn = useSelector(selectUserStaySignedIn);
 
 	const storeDispatch = useDispatch();
@@ -45,10 +42,6 @@ const App = () => {
 	};
 
 	useEffect(handleUseEffect, []);
-
-	useEffect(() => {
-		if (userError) dispatchNewNotification("user", "error", userError);
-	}, [userError]);
 
 	return (
 		<div className='app'>
