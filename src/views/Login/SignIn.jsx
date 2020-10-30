@@ -7,7 +7,7 @@ import useSignInForm from "hooks/useSignInForm";
 import pageTransition from "animations/pageTransition";
 
 const SignIn = (props) => {
-	const { match, staySignedIn } = props;
+	const { match, staySignedIn, isLoading } = props;
 	const { authenticateUser, setStaySignedIn } = props;
 
 	const { credentials, errors, handleChange, handleSubmit } = useSignInForm(authenticateUser);
@@ -84,7 +84,7 @@ const SignIn = (props) => {
 					</label>
 				</div>
 
-				<button type='submit' className='sign-in__btn-submit' formNoValidate>
+				<button type='submit' disabled={isLoading} className='sign-in__btn-submit' formNoValidate>
 					Sign in
 				</button>
 			</form>

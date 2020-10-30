@@ -7,7 +7,7 @@ import useSignUpForm from "hooks/useSignUpForm";
 import pageTransition from "animations/pageTransition";
 
 const SignUp = (props) => {
-	const { history } = props;
+	const { history, isLoading } = props;
 	const { registerUser } = props;
 
 	const { info, errors, handleChange, handleSubmit } = useSignUpForm(registerUser);
@@ -145,7 +145,7 @@ const SignUp = (props) => {
 					</p>
 				</div>
 
-				<button type='submit' className='sign-in__btn-submit' formNoValidate>
+				<button type='submit' disabled={isLoading} className='sign-in__btn-submit' formNoValidate>
 					Sign up
 				</button>
 			</form>

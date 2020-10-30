@@ -41,7 +41,7 @@ const Notification = (props) => {
 
 	return (
 		<motion.li
-			initial={{ opacity: 0, scale: 0.1 }}
+			initial={{ opacity: 1, scale: 0 }}
 			animate={{
 				opacity: 1,
 				scale: 1,

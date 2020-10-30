@@ -97,8 +97,11 @@ function* registerUserAsync({ payload }) {
 
 function* fetchUserAsync() {
 	try {
-		const { data } = yield userService.loadDetails();
-		yield put(fetchUserSuccess(data.user));
+		const {
+			data: { user },
+		} = yield userService.loadDetails();
+
+		yield put(fetchUserSuccess(user));
 	} catch (err) {
 		yield put(fetchUserFailure(err.message));
 	}
