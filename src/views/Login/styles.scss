@@ -216,8 +216,35 @@
     border: none;
     cursor: pointer;
 
+    transition: all 200ms;
+    position: relative;
+    z-index: 1;
+
     &:focus {
       outline: none;
+    }
+
+    &::before {
+      content: "";
+      height: 100%;
+      width: 100%;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+
+      border-radius: 4px;
+      background-color: #ffffff87;
+      opacity: 0;
+
+      transition: all 100ms;
+    }
+
+    &:disabled {
+      &::before {
+        opacity: 1;
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ import { useSpring, animated } from "react-spring";
 
 import { authenticateUserStart, registerUserStart, setStaySignedIn } from "store/user/actions";
 
-import { selectUserStaySignedIn } from "store/user/selectors";
+import { selectUserStaySignedIn, selectUserLoading } from "store/user/selectors";
 
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -20,6 +20,7 @@ const Login = (props) => {
 	const { match } = props;
 
 	const staySignedIn = useSelector(selectUserStaySignedIn);
+	const isLoading = useSelector(selectUserLoading);
 
 	const dispatch = useDispatch();
 
@@ -48,11 +49,12 @@ const Login = (props) => {
 									authenticateUser={handleAuthenticateUser}
 									setStaySignedIn={handleSetStaySignedIn}
 									staySignedIn={staySignedIn}
+									isLoading={isLoading}
 								/>
 							</Route>
 
 							<Route path={`${match.path}/register`}>
-								<SignUp registerUser={handleRegisterUser} />
+								<SignUp registerUser={handleRegisterUser} isLoading={isLoading} />
 							</Route>
 						</Switch>
 					</div>

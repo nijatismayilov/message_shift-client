@@ -23,9 +23,11 @@ const Main = () => {
 	useEffect(onMount, []);
 
 	return (
-		<animated.div style={fade} className='app-main'>
-			Main
-			<button onClick={handleLogout}>Sign Out</button>
+		<animated.div style={fade} className='app-main flex flex-column align-center justify-evenly'>
+			<div className='flex'>
+				Main
+				<button onClick={handleLogout}>Sign Out</button>
+			</div>
 		</animated.div>
 	);
 };
