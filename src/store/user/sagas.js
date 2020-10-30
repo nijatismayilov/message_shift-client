@@ -24,7 +24,6 @@ import {
 	registerUserFailure,
 	logoutUserSuccess,
 	logoutUserFailure,
-	clearError,
 	setStaySignedIn,
 } from "./actions";
 
@@ -70,7 +69,6 @@ function* authenticateUserAsync({ payload }) {
 
 		yield put(authenticateUserSuccess(accessToken));
 	} catch (err) {
-		yield put(clearError());
 		yield put(authenticateUserFailure(err.message));
 	}
 }
@@ -93,7 +91,6 @@ function* registerUserAsync({ payload }) {
 			message: `You were succesfully registered with the email ${email}`,
 		});
 	} catch (err) {
-		yield put(clearError());
 		yield put(registerUserFailure(err.message));
 	}
 }
@@ -101,9 +98,8 @@ function* registerUserAsync({ payload }) {
 function* fetchUserAsync() {
 	try {
 		const { data } = yield userService.loadDetails();
-		yield put(fetchUserSuccess(data));
+		yield put(fetchUserSuccess(data.user));
 	} catch (err) {
-		yield put(clearError());
 		yield put(fetchUserFailure(err.message));
 	}
 }
@@ -123,7 +119,6 @@ function* logoutUserAsync() {
 
 		yield put(logoutUserSuccess());
 	} catch (err) {
-		yield put(clearError());
 		yield put(logoutUserFailure(err.message));
 	}
 }

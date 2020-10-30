@@ -68,17 +68,14 @@ const reducer = (state = initialState, action) => {
 				loading: false,
 			};
 
-		case actionTypes.CLEAR_USER_ERROR:
-			return {
-				...state,
-				error: "",
-			};
-
 		case actionTypes.SET_STAY_SIGNED_IN:
 			return {
 				...state,
 				staySignedIn: action.payload,
 			};
+
+		case actionTypes.CLEAR_USER_STATE:
+			return initialState;
 
 		default:
 			return state;
