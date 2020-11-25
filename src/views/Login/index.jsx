@@ -10,8 +10,6 @@ import { selectUserStaySignedIn, selectUserLoading } from "store/user/selectors"
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
-import pageTransition from "animations/pageTransition";
-
 import Logo from "assets/img/logo.svg";
 
 import "./styles.scss";
@@ -24,7 +22,14 @@ const Login = (props) => {
 
 	const dispatch = useDispatch();
 
-	const fade = useSpring(pageTransition);
+	const fade = useSpring({
+		from: {
+			opacity: 0,
+		},
+		to: {
+			opacity: 1,
+		},
+	});
 
 	const handleAuthenticateUser = (credentials) => dispatch(authenticateUserStart(credentials));
 

@@ -4,23 +4,29 @@ import { useSpring, animated } from "react-spring";
 
 import { fetchUserStart, logoutUserStart } from "store/user/actions";
 
-import pageTransition from "animations/pageTransition";
-
 import "./styles.scss";
 
 const Main = () => {
 	const dispatch = useDispatch();
 
-	const fade = useSpring(pageTransition);
+	const fade = useSpring({
+		from: {
+			opacity: 0,
+		},
+		to: {
+			opacity: 1,
+		},
+	});
 
-	const handleFetchUser = () => dispatch(fetchUserStart());
-	const handleLogout = () => dispatch(logoutUserStart());
-
-	const onMount = () => {
-		handleFetchUser();
+	const handleFetchUser = () => {
+		dispatch(fetchUserStart());
 	};
 
-	useEffect(onMount, []);
+	const handleLogout = () => {
+		dispatch(logoutUserStart());
+	};
+
+	useEffect(handleFetchUser, []);
 
 	return (
 		<animated.div style={fade} className='app-main flex flex-column align-center justify-evenly'>

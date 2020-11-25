@@ -4,15 +4,20 @@ import { useSpring, animated } from "react-spring";
 
 import useSignUpForm from "hooks/useSignUpForm";
 
-import pageTransition from "animations/pageTransition";
-
 const SignUp = (props) => {
 	const { history, isLoading } = props;
 	const { registerUser } = props;
 
 	const { info, errors, handleChange, handleSubmit } = useSignUpForm(registerUser);
 
-	const fade = useSpring(pageTransition);
+	const fade = useSpring({
+		from: {
+			opacity: 0,
+		},
+		to: {
+			opacity: 1,
+		},
+	});
 
 	return (
 		<animated.div style={fade} className='w-100'>
