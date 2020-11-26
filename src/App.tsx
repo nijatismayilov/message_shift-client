@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { lazy, useReducer, useEffect, Suspense } from "react";
 import { Switch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -12,14 +12,16 @@ import { initialState, reducer, actions as AppReducerActions } from "./useReduce
 
 import { Notification } from "types/Notification";
 
-import Login from "views/Login";
-import Main from "views/Main";
-
 import Scrollbar from "components/Scrollbar";
 import ProtectedRoute from "components/ProtectedRoute/index";
 import NotificationsContainer from "components/NotificationsContainer/index";
 
 import "./index.scss";
+
+import Spinner from "components/Spinner";
+
+const Login = lazy(() => import("views/Login"));
+const Main = lazy(() => import("views/Main"));
 
 const App: React.FC = () => {
 	const [state, appDispatch] = useReducer(reducer, initialState);
@@ -57,10 +59,12 @@ const App: React.FC = () => {
 	return (
 		<div className='app'>
 			<Scrollbar hide={true}>
-				<Switch>
-					<ProtectedRoute exact path='/' isMain={true} component={Main} />
-					<ProtectedRoute path='/signin' isMain={false} component={Login} />
-				</Switch>
+				<Suspense fallback={<Spinner />}>
+					<Switch>
+						<ProtectedRoute exact path='/' isMain={true} component={Main} />
+						<ProtectedRoute path='/signin' isMain={false} component={Login} />
+					</Switch>
+				</Suspense>
 			</Scrollbar>
 
 			{state.notifications && <NotificationsContainer notifications={state.notifications} />}

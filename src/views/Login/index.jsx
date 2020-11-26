@@ -7,12 +7,12 @@ import { authenticateUserStart, registerUserStart, setStaySignedIn } from "store
 
 import { selectUserStaySignedIn, selectUserLoading } from "store/user/selectors";
 
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-
 import Logo from "assets/img/logo.svg";
 
 import "./styles.scss";
+
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 const Login = (props) => {
 	const { match } = props;
