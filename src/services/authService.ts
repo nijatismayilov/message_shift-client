@@ -1,13 +1,14 @@
 import axios from "../axiosInstance";
 
-import { UserCredentialsType, UserInfoType } from "types";
+import { UserCredentials, UserInfo } from "types/User";
 
 class AuthService {
-	public async signIn(credentials: UserCredentialsType) {
-		return await axios.post("/auth/signin", credentials);
+	public async signIn(credentials: UserCredentials) {
+		const res = await axios.post("/auth/signin", credentials);
+		return res;
 	}
 
-	public async signUp(userData: UserInfoType) {
+	public async signUp(userData: UserInfo) {
 		return await axios.post("/auth/signup", userData);
 	}
 

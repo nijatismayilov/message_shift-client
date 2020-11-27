@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import validate, { Errors } from "./validate";
 import { UserCredentials } from "types/User";
 
-type Callback = (arg: any) => void;
+type Callback = (credentials: UserCredentials) => void;
 
 const useSignInForm = (callback: Callback) => {
 	const [credentials, setCredentials] = useState<UserCredentials>({
@@ -31,7 +31,7 @@ const useSignInForm = (callback: Callback) => {
 	useEffect(() => {
 		Object.keys(errors).length === 0 &&
 			isSubmitting &&
-			callback({ credentials }) &&
+			callback(credentials) &&
 			setIsSubmitting(false);
 	}, [errors, isSubmitting, setIsSubmitting, credentials, callback]);
 
