@@ -73,7 +73,8 @@ const reducer: Reducer<UserReducerState, Action> = (state = initialState, action
 				staySignedIn: action.payload,
 			};
 
-		case (ActionTypes.LOGOUT_USER_SUCCESS, ActionTypes.CLEAR_USER_STATE):
+		case ActionTypes.LOGOUT_USER_SUCCESS:
+		case ActionTypes.CLEAR_USER_STATE:
 			return initialState;
 
 		default:

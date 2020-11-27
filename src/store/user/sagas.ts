@@ -35,7 +35,7 @@ function* authenticateUserAsync(action: AuthenticateUserStart) {
 	const { payload } = action;
 
 	try {
-		const { data } = yield call(authService.signIn, payload);
+		const { data } = yield authService.signIn(payload);
 		const { accessToken, refreshToken } = data;
 
 		yield call(setAccessToken, accessToken);
