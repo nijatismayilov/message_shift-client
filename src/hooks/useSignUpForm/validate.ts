@@ -1,4 +1,4 @@
-export interface UserInfo {
+export interface UserInfoCheck {
 	name: string;
 	surname: string;
 	email: string;
@@ -14,7 +14,7 @@ export interface Errors {
 	confirmPassword?: string;
 }
 
-const validateSignInInfo = (info: UserInfo) => {
+const validateSignInInfo = (info: UserInfoCheck) => {
 	let errors: Errors = {};
 
 	if (!info.name) errors.name = "Firstname should not be empty";
