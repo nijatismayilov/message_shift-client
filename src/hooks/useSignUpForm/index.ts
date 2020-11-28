@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
-import validate, { Errors, UserInfo } from "./validate";
 
-type Callback = (arg: UserInfo) => void;
+import { UserInfo } from "types/User";
+
+import validate, { Errors, UserInfoCheck } from "./validate";
+
+type Callback = (userInfo: UserInfo) => void;
 
 type ChangeInput = {
 	name: string;
@@ -9,7 +12,7 @@ type ChangeInput = {
 };
 
 const useSignUpForm = (callback: Callback) => {
-	const [info, setInfo] = useState<UserInfo>({
+	const [info, setInfo] = useState<UserInfoCheck>({
 		name: "",
 		surname: "",
 		email: "",
@@ -41,10 +44,17 @@ const useSignUpForm = (callback: Callback) => {
 	};
 
 	useEffect(() => {
-		Object.keys(errors).length === 0 &&
-			isSubmitting &&
-			callback({ ...info, confirmPassword: "" }) &&
+		if (Object.keys(errors).length === 0 && isSubmitting) {
+			const userInfo: UserInfo = {
+				name: info.name,
+				surname: info.surname,
+				email: info.email,
+				password: info.password,
+			};
+
+			callback(userInfo);
 			setIsSubmitting(false);
+		}
 	}, [errors, isSubmitting, callback, info, setIsSubmitting]);
 
 	return { info, handleChange, handleSubmit, errors };

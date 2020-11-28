@@ -39,10 +39,10 @@ const useSignInForm = (callback: Callback) => {
 	};
 
 	useEffect(() => {
-		Object.keys(errors).length === 0 &&
-			isSubmitting &&
-			callback(credentials) &&
+		if (Object.keys(errors).length === 0 && isSubmitting) {
+			callback(credentials);
 			setIsSubmitting(false);
+		}
 	}, [errors, isSubmitting, setIsSubmitting, credentials, callback]);
 
 	return { credentials, handleChange, handleSubmit, errors };
