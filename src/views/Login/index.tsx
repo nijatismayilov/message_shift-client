@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
 
@@ -7,46 +7,49 @@ import { authenticateUserStart, registerUserStart, setStaySignedIn } from "store
 
 import { selectUserStaySignedIn, selectUserLoading } from "store/user/selectors";
 
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+
+import { UserCredentials, UserInfo } from "types/User";
+
+import fadeConfig from "animation/fade";
+
 import Logo from "assets/img/logo.svg";
 
 import "./styles.scss";
 
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-
-const Login = (props) => {
-	const { match } = props;
+const Login: React.FC = () => {
+	const match = useRouteMatch();
 
 	const staySignedIn = useSelector(selectUserStaySignedIn);
 	const isLoading = useSelector(selectUserLoading);
 
 	const dispatch = useDispatch();
 
-	const fade = useSpring({
-		from: {
-			opacity: 0,
-		},
-		to: {
-			opacity: 1,
-		},
-	});
+	const fade = useSpring(fadeConfig);
 
-	const handleAuthenticateUser = (credentials) => dispatch(authenticateUserStart(credentials));
+	const handleAuthenticateUser = (credentials: UserCredentials) => {
+		dispatch(authenticateUserStart(credentials));
+	};
 
-	const handleRegisterUser = (userInfo) => dispatch(registerUserStart(userInfo));
+	const handleRegisterUser = (userInfo: UserInfo) => {
+		dispatch(registerUserStart(userInfo));
+	};
 
-	const handleSetStaySignedIn = () => dispatch(setStaySignedIn(!staySignedIn));
+	const handleSetStaySignedIn = () => {
+		dispatch(setStaySignedIn(!staySignedIn));
+	};
 
 	return (
 		<animated.div style={fade} className='login-page py-10'>
-			<div className='container flex flex-column align-center'>
+			<div className='container d-flex flex-column align-center'>
 				<div className='logo-box mb-10'>
 					<img src={Logo} alt='Logo' className='logo-box__img' />
 				</div>
 
 				<h2 className='login-page__title mb-5 mb-xl-15'>Welcome to MShift</h2>
 
-				<div className='row flex justify-center'>
+				<div className='row d-flex justify-center'>
 					<div className='col-10 col-sm-8 col-md-6 col-lg-4 col-xl-3'>
 						<Switch>
 							<Route exact path={`${match.path}`}>
@@ -69,4 +72,4 @@ const Login = (props) => {
 	);
 };
 
-export default withRouter(Login);
+export default Login;

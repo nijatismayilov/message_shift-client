@@ -4,21 +4,16 @@ import { useSpring, animated } from "react-spring";
 
 import { fetchUserStart, logoutUserStart } from "store/user/actions";
 
+import fadeConfig from "animation/fade";
+
 import "./styles.scss";
 
-const Main = () => {
+const Main: React.FC = () => {
 	const dispatch = useDispatch();
 
-	const fade = useSpring({
-		from: {
-			opacity: 0,
-		},
-		to: {
-			opacity: 1,
-		},
-	});
+	const fade = useSpring(fadeConfig);
 
-	const handleFetchUser = () => {
+	const handleMount = () => {
 		dispatch(fetchUserStart());
 	};
 
@@ -26,11 +21,11 @@ const Main = () => {
 		dispatch(logoutUserStart());
 	};
 
-	useEffect(handleFetchUser, []);
+	useEffect(handleMount, []);
 
 	return (
-		<animated.div style={fade} className='app-main flex flex-column align-center justify-evenly'>
-			<div className='flex'>
+		<animated.div style={fade} className='app-main d-flex flex-column align-center justify-evenly'>
+			<div className='d-flex'>
 				Main
 				<button onClick={handleLogout}>Sign Out</button>
 			</div>

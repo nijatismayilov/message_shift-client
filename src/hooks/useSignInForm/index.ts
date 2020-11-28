@@ -4,6 +4,11 @@ import { UserCredentials } from "types/User";
 
 type Callback = (credentials: UserCredentials) => void;
 
+type ChangeInput = {
+	name: string;
+	value: string;
+};
+
 const useSignInForm = (callback: Callback) => {
 	const [credentials, setCredentials] = useState<UserCredentials>({
 		email: "",
@@ -12,12 +17,17 @@ const useSignInForm = (callback: Callback) => {
 	const [errors, setErrors] = useState<Errors>({});
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		const { name, value } = e.target;
+	const handleChange = (input: ChangeInput): void => {
+		const { name, value } = input;
 
 		setCredentials((credentials) => ({
 			...credentials,
 			[name]: value,
+		}));
+
+		setErrors((errors) => ({
+			...errors,
+			[name]: undefined,
 		}));
 	};
 
