@@ -1,4 +1,4 @@
-import React, { lazy, useReducer, useEffect, Suspense } from "react";
+import React, { lazy, Suspense, useReducer, useEffect } from "react";
 import { Switch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 

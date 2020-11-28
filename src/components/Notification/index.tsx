@@ -58,13 +58,13 @@ const Notification: React.FC<Props> = (props) => {
 			className={`notification notification--${type}`}
 		>
 			<div className='row justify-between align-center'>
-				<div className='col-10 flex align-center'>
+				<div className='col-10 d-flex align-center'>
 					<img className='notification__icon' src={renderIcon(type, icons)} alt={type} />
 
 					<div className='notification__text'>{message}</div>
 				</div>
 
-				<div className='col-2 flex justify-end'>
+				<div className='col-2 d-flex justify-end'>
 					<button className='notification__btn' onClick={handleRemoveNorification}>
 						<img src={dismissIcon} alt='x' />
 					</button>

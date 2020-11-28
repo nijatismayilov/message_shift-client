@@ -1,9 +1,9 @@
 export interface UserInfo {
-	name?: string;
-	surname?: string;
-	email?: string;
-	password?: string;
-	confirmPassword?: string;
+	name: string;
+	surname: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
 }
 
 export interface Errors {
