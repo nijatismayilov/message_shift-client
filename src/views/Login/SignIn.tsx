@@ -3,6 +3,7 @@ import { Link, useRouteMatch } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 
 import TextField from "components/TextField";
+import Checkbox from "components/Checkbox";
 
 import useSignInForm from "hooks/useSignInForm";
 
@@ -14,7 +15,7 @@ interface Props {
 	staySignedIn: boolean;
 	isLoading: boolean;
 	authenticateUser: (credentials: UserCredentials) => void;
-	setStaySignedIn: () => void;
+	setStaySignedIn: (checked: boolean) => void;
 }
 
 const SignIn: React.FC<Props> = (props) => {
@@ -34,6 +35,10 @@ const SignIn: React.FC<Props> = (props) => {
 		};
 
 		handleChange(input);
+	};
+
+	const handleCheckboxChange = (checked: boolean) => {
+		setStaySignedIn(checked);
 	};
 
 	return (
@@ -57,20 +62,12 @@ const SignIn: React.FC<Props> = (props) => {
 					onChange={(value) => handleTextFieldChange(value, "password")}
 				/>
 
-				<div className='sign-in__checkbox-group'>
-					<input
-						type='checkbox'
-						name='rememberMe'
-						id='rememberMe'
-						className='sign-in__checkbox'
-						checked={staySignedIn}
-						onChange={setStaySignedIn}
-					/>
-					<label htmlFor='rememberMe' className='sign-in__checkbox-label'>
-						<span className='sign-in__checkbox-label-indicator'></span>
-						Keep me signed in
-					</label>
-				</div>
+				<Checkbox
+					checkhed={staySignedIn}
+					name='remember-me'
+					label='Keep me signed in'
+					onChange={handleCheckboxChange}
+				/>
 
 				<button type='submit' disabled={isLoading} className='sign-in__btn-submit' formNoValidate>
 					Sign in
@@ -78,7 +75,7 @@ const SignIn: React.FC<Props> = (props) => {
 			</form>
 
 			<div className='d-flex justify-center align-center'>
-				<p>Don't have an account yet?</p>
+				<p className='mr-2'>Don't have an account yet?</p>
 
 				<Link to={`${match.path}/register`} className='login-page__link'>
 					Sign up

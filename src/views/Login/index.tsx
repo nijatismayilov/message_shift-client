@@ -36,18 +36,19 @@ const Login: React.FC = () => {
 		dispatch(registerUserStart(userInfo));
 	};
 
-	const handleSetStaySignedIn = () => {
-		dispatch(setStaySignedIn(!staySignedIn));
+	const handleSetStaySignedIn = (checked: boolean) => {
+		dispatch(setStaySignedIn(checked));
 	};
 
 	return (
 		<animated.div style={fade} className='login-page py-10'>
 			<div className='container d-flex flex-column align-center'>
-				<div className='logo-box mb-10'>
+				<div className='logo-box mb-15 d-flex align-center'>
 					<img src={Logo} alt='Logo' className='logo-box__img' />
+					<span className='logo-box__text'>MShift</span>
 				</div>
 
-				<h2 className='login-page__title mb-5 mb-xl-15'>Welcome to MShift</h2>
+				<h2 className='login-page__title mb-5 mb-xl-7'>Welcome Back</h2>
 
 				<div className='row d-flex justify-center'>
 					<div className='col-10 col-sm-8 col-md-6 col-lg-4 col-xl-3'>
