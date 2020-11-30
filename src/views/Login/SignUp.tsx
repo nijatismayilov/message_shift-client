@@ -88,7 +88,7 @@ const SignUp: React.FC<Props> = (props) => {
 			</form>
 
 			<div className='d-flex justify-center align-center'>
-				<p>Already have an account?</p>
+				<p className='mr-2'>Already have an account?</p>
 
 				<button onClick={history.goBack} className='login-page__link'>
 					Sign in
