@@ -13,7 +13,7 @@ interface Props {
 	value: string;
 	label?: string;
 	error?: string;
-	onChange: (value: string) => void;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const TextField: React.FC<Props> = (props) => {
@@ -30,12 +30,6 @@ const TextField: React.FC<Props> = (props) => {
 	const labelClassName = classnames(labelClassFunc(hasValue));
 	const hintClassName = classnames(hintClassFunc(isHintVisible, hasError));
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { value } = e.target;
-
-		onChange(value);
-	};
-
 	return (
 		<div className='text-field'>
 			<input
@@ -45,7 +39,7 @@ const TextField: React.FC<Props> = (props) => {
 				autoComplete='new-password'
 				className={inputClassName}
 				value={value}
-				onChange={handleChange}
+				onChange={onChange}
 			/>
 
 			<label htmlFor={id.current} className={labelClassName}>

@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { selectUserIsAuth } from "store/user/selectors";
+import { selectIsAuthenticated } from "store/auth/selectors";
 
 interface Props {
 	isMain: boolean;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ProtectedRoute: React.FC<Props> = ({ component: Component, isMain, ...props }) => {
-	const isAuth = useSelector(selectUserIsAuth);
+	const isAuth = useSelector(selectIsAuthenticated);
 
 	return (
 		<Route

@@ -1,45 +1,53 @@
 import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
+
+import { authenticateUserStart } from "store/auth/actions";
 
 import TextField from "components/TextField";
 import Checkbox from "components/Checkbox";
 
-import useSignInForm from "hooks/useSignInForm";
-
-import { UserCredentials } from "types/User";
+import useForm, { Rule } from "hooks/useForm";
 
 import fadeConfig from "animation/fade";
 
 interface Props {
-	staySignedIn: boolean;
 	isLoading: boolean;
-	authenticateUser: (credentials: UserCredentials) => void;
-	setStaySignedIn: (checked: boolean) => void;
 }
 
+const initialValues = {
+	email: "",
+	password: "",
+	willStayAuth: false,
+};
+
+const emailRule: Rule = {
+	name: "email",
+	isEmpty: false,
+	regex: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+};
+
+const passwordRule: Rule = {
+	name: "password",
+	isEmpty: false,
+};
+
+const rules = [emailRule, passwordRule];
+
 const SignIn: React.FC<Props> = (props) => {
-	const { staySignedIn, isLoading } = props;
-	const { authenticateUser, setStaySignedIn } = props;
+	const { isLoading } = props;
 
 	const match = useRouteMatch();
+	const dispatch = useDispatch();
 
-	const { credentials, errors, handleChange, handleSubmit } = useSignInForm(authenticateUser);
+	const { values, errors, handleChange, handleSubmit } = useForm(initialValues, rules, handleAuth);
 
 	const fade = useSpring(fadeConfig);
 
-	const handleTextFieldChange = (value: string, name: string) => {
-		const input = {
-			value,
-			name,
-		};
-
-		handleChange(input);
-	};
-
-	const handleCheckboxChange = (checked: boolean) => {
-		setStaySignedIn(checked);
-	};
+	function handleAuth(values: typeof initialValues) {
+		dispatch(authenticateUserStart(values));
+	}
 
 	return (
 		<animated.div style={fade} className='w-100'>
@@ -49,8 +57,8 @@ const SignIn: React.FC<Props> = (props) => {
 					name='email'
 					label='Your Email'
 					error={errors.email}
-					value={credentials.email}
-					onChange={(value) => handleTextFieldChange(value, "email")}
+					value={values.email}
+					onChange={handleChange}
 				/>
 
 				<TextField
@@ -58,15 +66,15 @@ const SignIn: React.FC<Props> = (props) => {
 					name='password'
 					label='Your Password'
 					error={errors.password}
-					value={credentials.password}
-					onChange={(value) => handleTextFieldChange(value, "password")}
+					value={values.password}
+					onChange={handleChange}
 				/>
 
 				<Checkbox
-					checkhed={staySignedIn}
-					name='remember-me'
+					checkhed={values.willStayAuth}
+					name='willStayAuth'
 					label='Keep me signed in'
-					onChange={handleCheckboxChange}
+					onChange={handleChange}
 				/>
 
 				<button type='submit' disabled={isLoading} className='sign-in__btn-submit' formNoValidate>
