@@ -1,10 +1,5 @@
 import React, { lazy, Suspense, useReducer, useEffect } from "react";
 import { Switch } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
-import { selectUserIsAuth, selectUserStaySignedIn } from "store/user/selectors";
-
-import { logoutUserStart } from "store/user/actions";
 
 import eventBus from "eventBus";
 
@@ -26,20 +21,11 @@ const Main = lazy(() => import("views/Main"));
 const App: React.FC = () => {
 	const [state, appDispatch] = useReducer(reducer, initialState);
 
-	const isAuth = useSelector(selectUserIsAuth);
-	const staySignedIn = useSelector(selectUserStaySignedIn);
-
-	const storeDispatch = useDispatch();
-
 	const handleAddNotification = (notification: Notification): void => {
 		appDispatch(AppReducerActions.addNotification(notification));
 	};
 	const handleRemoveNotification = (id: string): void => {
 		appDispatch(AppReducerActions.removeNotification(id));
-	};
-
-	const handleUserLogout = (): void => {
-		if (isAuth && !staySignedIn) storeDispatch(logoutUserStart());
 	};
 
 	const handleMount = () => {
@@ -49,8 +35,6 @@ const App: React.FC = () => {
 		return () => {
 			eventBus.remove("new-notification", handleAddNotification);
 			eventBus.remove("remove-notification", handleRemoveNotification);
-
-			handleUserLogout();
 		};
 	};
 

@@ -3,14 +3,14 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
 
-import { authenticateUserStart, registerUserStart, setStaySignedIn } from "store/user/actions";
+import { registerUserStart } from "store/auth/actions";
 
-import { selectUserStaySignedIn, selectUserLoading } from "store/user/selectors";
+import { selectAuthLoading } from "store/auth/selectors";
 
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
-import { UserCredentials, UserInfo } from "types/User";
+import { UserInfo } from "types/User";
 
 import fadeConfig from "animation/fade";
 
@@ -19,25 +19,15 @@ import Logo from "assets/img/logo.svg";
 import "./styles.scss";
 
 const Login: React.FC = () => {
+	const isLoading = useSelector(selectAuthLoading);
+
 	const match = useRouteMatch();
-
-	const staySignedIn = useSelector(selectUserStaySignedIn);
-	const isLoading = useSelector(selectUserLoading);
-
 	const dispatch = useDispatch();
 
 	const fade = useSpring(fadeConfig);
 
-	const handleAuthenticateUser = (credentials: UserCredentials) => {
-		dispatch(authenticateUserStart(credentials));
-	};
-
 	const handleRegisterUser = (userInfo: UserInfo) => {
 		dispatch(registerUserStart(userInfo));
-	};
-
-	const handleSetStaySignedIn = (checked: boolean) => {
-		dispatch(setStaySignedIn(checked));
 	};
 
 	return (
@@ -54,12 +44,7 @@ const Login: React.FC = () => {
 					<div className='col-10 col-sm-8 col-md-6 col-lg-4 col-xl-3'>
 						<Switch>
 							<Route exact path={`${match.path}`}>
-								<SignIn
-									authenticateUser={handleAuthenticateUser}
-									setStaySignedIn={handleSetStaySignedIn}
-									staySignedIn={staySignedIn}
-									isLoading={isLoading}
-								/>
+								<SignIn isLoading={isLoading} />
 							</Route>
 
 							<Route path={`${match.path}/register`}>

@@ -43,7 +43,7 @@ const SignUp: React.FC<Props> = (props) => {
 					label='Firstname'
 					value={info.name}
 					error={errors.name}
-					onChange={(value) => handleTextFieldChange(value, "name")}
+					onChange={(e) => handleTextFieldChange(e.target.value, "name")}
 				/>
 
 				<TextField
@@ -52,7 +52,7 @@ const SignUp: React.FC<Props> = (props) => {
 					label='Surname'
 					value={info.surname}
 					error={errors.surname}
-					onChange={(value) => handleTextFieldChange(value, "surname")}
+					onChange={(e) => handleTextFieldChange(e.target.value, "surname")}
 				/>
 
 				<TextField
@@ -61,7 +61,7 @@ const SignUp: React.FC<Props> = (props) => {
 					label='Email'
 					value={info.email}
 					error={errors.email}
-					onChange={(value) => handleTextFieldChange(value, "email")}
+					onChange={(e) => handleTextFieldChange(e.target.value, "email")}
 				/>
 
 				<TextField
@@ -70,7 +70,7 @@ const SignUp: React.FC<Props> = (props) => {
 					label='Password'
 					value={info.password}
 					error={errors.password}
-					onChange={(value) => handleTextFieldChange(value, "password")}
+					onChange={(e) => handleTextFieldChange(e.target.value, "password")}
 				/>
 
 				<TextField
@@ -79,7 +79,7 @@ const SignUp: React.FC<Props> = (props) => {
 					label='Confirm Password'
 					value={info.confirmPassword}
 					error={errors.confirmPassword}
-					onChange={(value) => handleTextFieldChange(value, "confirmPassword")}
+					onChange={(e) => handleTextFieldChange(e.target.value, "confirmPassword")}
 				/>
 
 				<button type='submit' disabled={isLoading} className='sign-in__btn-submit' formNoValidate>

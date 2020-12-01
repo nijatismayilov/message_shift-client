@@ -7,15 +7,8 @@ import dispatchNotification from "utils/dispatchNotification";
 
 import { NotificationTypes } from "types/Notification";
 
-import {
-	getAccessToken,
-	getRefreshToken,
-	setAccessToken,
-	setRefreshToken,
-	removeAccessToken,
-	removeRefreshToken,
-	removeStaySignedIn,
-} from "utils/localStorage";
+import * as localStorage from "utils/localStorage";
+import * as sessionStorage from "utils/sessionStorage";
 
 let isAlreadyFetchingAccessToken = false;
 let subscribers: Function[] = [];
@@ -34,7 +27,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((req) => {
-	let token = getAccessToken();
+	let token = localStorage.getAccessToken() || sessionStorage.getAccessToken();
 	req.headers.Authorization = `Bearer ${token}`;
 
 	return req;
@@ -67,7 +60,7 @@ const isTokenExpiredError = (errorResponse: AxiosResponse) => {
 const resetTokenAndReattemptRequest = async (error: any) => {
 	try {
 		const { response: errorResponse } = error;
-		const refreshToken = getRefreshToken();
+		const refreshToken = localStorage.getRefreshToken() || sessionStorage.getRefreshToken();
 
 		if (!refreshToken) {
 			createNewError(error);
@@ -95,8 +88,8 @@ const resetTokenAndReattemptRequest = async (error: any) => {
 			}
 
 			const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data;
-			setAccessToken(newAccessToken);
-			setRefreshToken(newRefreshToken);
+			localStorage.setAccessToken(newAccessToken);
+			localStorage.setRefreshToken(newRefreshToken);
 
 			isAlreadyFetchingAccessToken = false;
 			onAccessTokenFetched(newAccessToken);
@@ -110,9 +103,11 @@ const resetTokenAndReattemptRequest = async (error: any) => {
 		if (status === 401 && message === "Please sign in again") {
 			dispatchNotification("refresh-token-expired", NotificationTypes.ERROR, message);
 
-			removeAccessToken();
-			removeRefreshToken();
-			removeStaySignedIn();
+			localStorage.removeAccessToken();
+			localStorage.removeRefreshToken();
+
+			sessionStorage.removeAccessToken();
+			sessionStorage.removeRefreshToken();
 
 			store.dispatch(clearUserState());
 

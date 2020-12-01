@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
 
-import { fetchUserStart, logoutUserStart } from "store/user/actions";
+import { fetchUserStart } from "store/user/actions";
+import { logoutUserStart } from "store/auth/actions";
 
 import fadeConfig from "animation/fade";
 

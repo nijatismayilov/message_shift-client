@@ -5,9 +5,10 @@ import createSagaMiddleware from "redux-saga";
 import rootReducer from "./rootReducer";
 import rootSaga from "./rootSaga";
 
-import { authenticateUserSuccess, setStaySignedIn } from "./user/actions";
+import { authenticateUserSuccess } from "./auth/actions";
 
-import { getAccessToken, getRefreshToken, getStaySignedId } from "utils/localStorage";
+import * as localStorage from "utils/localStorage";
+import * as sessionStorage from "utils/sessionStorage";
 
 const composeEnhancers: any =
 	(process.env.NODE_ENV === "development" &&
@@ -22,10 +23,9 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(...middl
 
 sagaMiddleware.run(rootSaga);
 
-const accessToken = getAccessToken();
-const refreshToken = getRefreshToken();
-const staySignedIn = getStaySignedId();
+const accessToken = localStorage.getAccessToken() || sessionStorage.getAccessToken();
+const refreshToken = localStorage.getRefreshToken() || sessionStorage.getRefreshToken();
+
 if (accessToken && refreshToken) store.dispatch(authenticateUserSuccess(accessToken));
-if (staySignedIn) store.dispatch(setStaySignedIn(!!staySignedIn));
 
 export default store;

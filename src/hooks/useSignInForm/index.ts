@@ -2,20 +2,19 @@ import { useState, useEffect } from "react";
 import validate, { Errors } from "./validate";
 import { UserCredentials } from "types/User";
 
-type Callback = (credentials: UserCredentials) => void;
-
 type ChangeInput = {
 	name: string;
 	value: string;
 };
 
-const useSignInForm = (callback: Callback) => {
+const useSignInForm = () => {
 	const [credentials, setCredentials] = useState<UserCredentials>({
 		email: "",
 		password: "",
 	});
 	const [errors, setErrors] = useState<Errors>({});
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [canSubmit, setCanSubmit] = useState(false);
 
 	const handleChange = (input: ChangeInput): void => {
 		const { name, value } = input;
@@ -40,12 +39,16 @@ const useSignInForm = (callback: Callback) => {
 
 	useEffect(() => {
 		if (Object.keys(errors).length === 0 && isSubmitting) {
-			callback(credentials);
+			setCanSubmit(true);
 			setIsSubmitting(false);
 		}
-	}, [errors, isSubmitting, setIsSubmitting, credentials, callback]);
+	}, [errors, isSubmitting, setIsSubmitting, credentials]);
 
-	return { credentials, handleChange, handleSubmit, errors };
+	useEffect(() => {
+		if (Object.keys(errors).length !== 0) setCanSubmit(false);
+	}, [errors]);
+
+	return { credentials, handleChange, handleSubmit, errors, canSubmit };
 };
 
 export default useSignInForm;
