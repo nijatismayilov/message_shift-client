@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import store from "store";
 
+import { logoutUserSuccess } from "store/auth/actions";
 import { clearUserState } from "store/user/actions";
 
 import dispatchNotification from "utils/dispatchNotification";
@@ -40,13 +41,23 @@ axiosInstance.interceptors.response.use(
 
 		if (!errorResponse)
 			dispatchNotification("api-request", NotificationTypes.ERROR, "Please try again later");
-		else if (isTokenExpiredError(errorResponse)) {
+		else if (isAttempUnauthorized(errorResponse)) {
+			store.dispatch(logoutUserSuccess());
+			store.dispatch(clearUserState());
+		} else if (isTokenExpiredError(errorResponse)) {
 			return resetTokenAndReattemptRequest(error);
-		} else {
-			createNewError(error);
-		}
+		} else createNewError(error);
 	}
 );
+
+const isAttempUnauthorized = (errorResponse: AxiosResponse) => {
+	const {
+		error: { status, message },
+	} = errorResponse.data;
+
+	if (status === 401 && message === "Unauthorized") return true;
+	else return false;
+};
 
 const isTokenExpiredError = (errorResponse: AxiosResponse) => {
 	const {

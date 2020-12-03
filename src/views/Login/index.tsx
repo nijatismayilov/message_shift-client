@@ -3,7 +3,7 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
 
-import { registerUserStart } from "store/auth/actions";
+import { authenticateUserStart, registerUserStart, authPayload } from "store/auth/actions";
 
 import { selectAuthLoading } from "store/auth/selectors";
 
@@ -26,6 +26,10 @@ const Login: React.FC = () => {
 
 	const fade = useSpring(fadeConfig);
 
+	const handleAuthenticateUser = (payload: authPayload) => {
+		dispatch(authenticateUserStart(payload));
+	};
+
 	const handleRegisterUser = (userInfo: UserInfo) => {
 		dispatch(registerUserStart(userInfo));
 	};
@@ -44,7 +48,7 @@ const Login: React.FC = () => {
 					<div className='col-10 col-sm-8 col-md-6 col-lg-4 col-xl-3'>
 						<Switch>
 							<Route exact path={`${match.path}`}>
-								<SignIn isLoading={isLoading} />
+								<SignIn authenticateUser={handleAuthenticateUser} isLoading={isLoading} />
 							</Route>
 
 							<Route path={`${match.path}/register`}>

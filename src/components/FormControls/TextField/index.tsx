@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useRef, memo } from "react";
 import classnames from "classnames";
 
 import generateKey from "utils/generateKey";
@@ -12,13 +12,16 @@ interface Props {
 	name: string;
 	value: string;
 	label?: string;
+	placeholder?: string;
 	error?: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const TextField: React.FC<Props> = (props) => {
-	const { type, name, value, label, error } = props;
+	const { type, name, value, label, placeholder, error } = props;
 	const { onChange } = props;
+
+	const [isFocused, setIsFocused] = useState(false);
 
 	const id = useRef(generateKey(name));
 
@@ -35,11 +38,14 @@ const TextField: React.FC<Props> = (props) => {
 			<input
 				type={type}
 				name={name}
+				placeholder={(isFocused && placeholder) || undefined}
 				id={id.current}
 				autoComplete='new-password'
 				className={inputClassName}
 				value={value}
 				onChange={onChange}
+				onFocus={() => setIsFocused(true)}
+				onBlur={() => setIsFocused(false)}
 			/>
 
 			<label htmlFor={id.current} className={labelClassName}>
@@ -51,4 +57,4 @@ const TextField: React.FC<Props> = (props) => {
 	);
 };
 
-export default TextField;
+export default memo(TextField);

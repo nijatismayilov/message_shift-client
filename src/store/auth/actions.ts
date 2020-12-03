@@ -1,14 +1,14 @@
 import { ActionTypes, Action } from "./types";
 import { UserInfo } from "types/User";
 
-interface authProp {
+export interface authPayload {
 	email: string;
 	password: string;
 	willStayAuth: boolean;
 }
 
 // actions for user authentication
-export const authenticateUserStart = (values: authProp): Action => ({
+export const authenticateUserStart = (values: authPayload): Action => ({
 	type: ActionTypes.AUHTENTICATE_USER_START,
 	payload: {
 		credentials: { email: values.email, password: values.password },
