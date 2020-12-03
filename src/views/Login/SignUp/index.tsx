@@ -1,14 +1,15 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
+import { useFormik } from "formik";
 
-import useSignUpForm from "hooks/useSignUpForm";
-
-import TextField from "components/TextField";
+import TextField from "components/FormControls/TextField";
 
 import { UserInfo } from "types/User";
 
 import fadeConfig from "animation/fade";
+
+import { initialValues, validationSchema, validationTiming } from "./signUpForm";
 
 interface Props {
 	isLoading: boolean;
@@ -21,18 +22,28 @@ const SignUp: React.FC<Props> = (props) => {
 
 	const history = useHistory();
 
-	const { info, errors, handleChange, handleSubmit } = useSignUpForm(registerUser);
+	const formik = useFormik({
+		initialValues,
+		onSubmit: handleFormikSubmit,
+		validationSchema,
+		...validationTiming,
+	});
+
+	const { values, errors } = formik;
+	const { handleChange, handleSubmit } = formik;
 
 	const fade = useSpring(fadeConfig);
 
-	const handleTextFieldChange = (value: string, name: string): void => {
-		const input = {
-			name,
-			value,
+	function handleFormikSubmit() {
+		const payload: UserInfo = {
+			name: values.name,
+			surname: values.surname,
+			email: values.email,
+			password: values.password,
 		};
 
-		handleChange(input);
-	};
+		registerUser(payload);
+	}
 
 	return (
 		<animated.div style={fade} className='w-100'>
@@ -41,45 +52,45 @@ const SignUp: React.FC<Props> = (props) => {
 					type='text'
 					name='name'
 					label='Firstname'
-					value={info.name}
+					value={values.name}
 					error={errors.name}
-					onChange={(e) => handleTextFieldChange(e.target.value, "name")}
+					onChange={handleChange}
 				/>
 
 				<TextField
 					type='text'
 					name='surname'
 					label='Surname'
-					value={info.surname}
+					value={values.surname}
 					error={errors.surname}
-					onChange={(e) => handleTextFieldChange(e.target.value, "surname")}
+					onChange={handleChange}
 				/>
 
 				<TextField
 					type='email'
 					name='email'
 					label='Email'
-					value={info.email}
+					value={values.email}
 					error={errors.email}
-					onChange={(e) => handleTextFieldChange(e.target.value, "email")}
+					onChange={handleChange}
 				/>
 
 				<TextField
 					type='password'
 					name='password'
 					label='Password'
-					value={info.password}
+					value={values.password}
 					error={errors.password}
-					onChange={(e) => handleTextFieldChange(e.target.value, "password")}
+					onChange={handleChange}
 				/>
 
 				<TextField
 					type='password'
 					name='confirmPassword'
 					label='Confirm Password'
-					value={info.confirmPassword}
+					value={values.confirmPassword}
 					error={errors.confirmPassword}
-					onChange={(e) => handleTextFieldChange(e.target.value, "confirmPassword")}
+					onChange={handleChange}
 				/>
 
 				<button type='submit' disabled={isLoading} className='sign-in__btn-submit' formNoValidate>

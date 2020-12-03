@@ -1,52 +1,42 @@
 import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
+import { useFormik } from "formik";
 
-import { authenticateUserStart } from "store/auth/actions";
+import { authPayload } from "store/auth/actions";
 
-import TextField from "components/TextField";
-import Checkbox from "components/Checkbox";
-
-import useForm, { Rule } from "hooks/useForm";
+import TextField from "components/FormControls/TextField";
+import Checkbox from "components/FormControls/Checkbox";
 
 import fadeConfig from "animation/fade";
 
+import { initialValues, validationSchema, validationTiming } from "./signInForm";
+
 interface Props {
 	isLoading: boolean;
+	authenticateUser: (payload: authPayload) => void;
 }
-
-const initialValues = {
-	email: "",
-	password: "",
-	willStayAuth: false,
-};
-
-const emailRule: Rule = {
-	name: "email",
-	isEmpty: false,
-	regex: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-};
-
-const passwordRule: Rule = {
-	name: "password",
-	isEmpty: false,
-};
-
-const rules = [emailRule, passwordRule];
 
 const SignIn: React.FC<Props> = (props) => {
 	const { isLoading } = props;
+	const { authenticateUser } = props;
 
 	const match = useRouteMatch();
-	const dispatch = useDispatch();
-
-	const { values, errors, handleChange, handleSubmit } = useForm(initialValues, rules, handleAuth);
 
 	const fade = useSpring(fadeConfig);
 
-	function handleAuth(values: typeof initialValues) {
-		dispatch(authenticateUserStart(values));
+	const formik = useFormik({
+		initialValues,
+		onSubmit: handleFormikSubmit,
+		validationSchema,
+		...validationTiming,
+	});
+
+	const { values, errors } = formik;
+	const { handleChange, handleSubmit } = formik;
+
+	function handleFormikSubmit() {
+		authenticateUser(values);
 	}
 
 	return (
