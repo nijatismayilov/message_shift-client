@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextField should render properly 1`] = `
+<body>
+  <div>
+    <div
+      class="text-field"
+    >
+      <input
+        autocomplete="new-password"
+        class="text-field__input text-field__input--error"
+        data-testid="text-field-input"
+        id="1762e3eaa65-text-3.0eda4114a413c"
+        name="text"
+        type="text"
+        value="test"
+      />
+      <label
+        class="text-field__label text-field__label--active"
+        data-testid="text-field-label"
+        for="1762e3eaa65-text-3.0eda4114a413c"
+      >
+        text
+      </label>
+      <p
+        class="text-field__hint text-field__hint--visible text-field__hint--error"
+        data-testid="text-field-error"
+      >
+        error
+      </p>
+    </div>
+  </div>
+</body>
+`;
