@@ -33,7 +33,7 @@ const SignIn: React.FC<Props> = (props) => {
 	});
 
 	const { values, errors } = formik;
-	const { handleChange, handleSubmit } = formik;
+	const { handleChange, handleBlur, handleSubmit } = formik;
 
 	function handleFormikSubmit() {
 		authenticateUser(values);
@@ -49,6 +49,7 @@ const SignIn: React.FC<Props> = (props) => {
 					error={errors.email}
 					value={values.email}
 					onChange={handleChange}
+					onBlur={handleBlur}
 				/>
 
 				<TextField
@@ -58,6 +59,7 @@ const SignIn: React.FC<Props> = (props) => {
 					error={errors.password}
 					value={values.password}
 					onChange={handleChange}
+					onBlur={handleBlur}
 				/>
 
 				<Checkbox

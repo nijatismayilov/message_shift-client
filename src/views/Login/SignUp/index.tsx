@@ -30,7 +30,7 @@ const SignUp: React.FC<Props> = (props) => {
 	});
 
 	const { values, errors } = formik;
-	const { handleChange, handleSubmit } = formik;
+	const { handleChange, handleBlur, handleSubmit } = formik;
 
 	const fade = useSpring(fadeConfig);
 
@@ -55,6 +55,7 @@ const SignUp: React.FC<Props> = (props) => {
 					value={values.name}
 					error={errors.name}
 					onChange={handleChange}
+					onBlur={handleBlur}
 				/>
 
 				<TextField
@@ -64,6 +65,7 @@ const SignUp: React.FC<Props> = (props) => {
 					value={values.surname}
 					error={errors.surname}
 					onChange={handleChange}
+					onBlur={handleBlur}
 				/>
 
 				<TextField
@@ -73,6 +75,7 @@ const SignUp: React.FC<Props> = (props) => {
 					value={values.email}
 					error={errors.email}
 					onChange={handleChange}
+					onBlur={handleBlur}
 				/>
 
 				<TextField
@@ -82,6 +85,7 @@ const SignUp: React.FC<Props> = (props) => {
 					value={values.password}
 					error={errors.password}
 					onChange={handleChange}
+					onBlur={handleBlur}
 				/>
 
 				<TextField
@@ -91,6 +95,7 @@ const SignUp: React.FC<Props> = (props) => {
 					value={values.confirmPassword}
 					error={errors.confirmPassword}
 					onChange={handleChange}
+					onBlur={handleBlur}
 				/>
 
 				<button type='submit' disabled={isLoading} className='sign-in__btn-submit' formNoValidate>
