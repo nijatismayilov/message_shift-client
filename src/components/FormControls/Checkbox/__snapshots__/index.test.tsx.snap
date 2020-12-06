@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checkbox component should render properly 1`] = `
+<body>
+  <div>
+    <div
+      class="checkbox"
+    >
+      <input
+        class="checkbox__input"
+        data-testid="checkbox-input"
+        id="17638775e30-checkbox-3.be17c8a0520ac"
+        name="checkbox"
+        type="checkbox"
+      />
+      <label
+        class="checkbox__label"
+        for="17638775e30-checkbox-3.be17c8a0520ac"
+      >
+        <span
+          class="checkbox__label-indicator"
+        />
+      </label>
+    </div>
+  </div>
+</body>
+`;
