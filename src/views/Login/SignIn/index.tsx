@@ -67,6 +67,7 @@ const SignIn: React.FC<Props> = (props) => {
 					name='willStayAuth'
 					label='Keep me signed in'
 					onChange={handleChange}
+					onBlur={handleBlur}
 				/>
 
 				<button type='submit' disabled={isLoading} className='sign-in__btn-submit' formNoValidate>
