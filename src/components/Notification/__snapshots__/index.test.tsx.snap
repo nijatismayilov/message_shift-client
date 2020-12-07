@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notification component should match snapshot 1`] = `
+<body>
+  <div>
+    <li
+      class="notification notification--success"
+      data-testid="notification"
+      style="opacity: 1; transform: scale(0) translateZ(0);"
+    >
+      <div
+        class="row justify-between align-center"
+      >
+        <div
+          class="col-10 d-flex align-center"
+        >
+          <img
+            alt="success"
+            class="notification__icon"
+            src=""
+          />
+          <div
+            class="notification__text"
+            data-testid="notification-message"
+          >
+            Test Notification
+          </div>
+        </div>
+        <div
+          class="col-2 d-flex justify-end"
+        >
+          <button
+            class="notification__btn"
+            data-testid="notification-close-btn"
+          >
+            <img
+              alt="x"
+              src="dismiss.svg"
+            />
+          </button>
+        </div>
+      </div>
+    </li>
+  </div>
+</body>
+`;

@@ -33,7 +33,7 @@ const Notification: React.FC<Props> = (props) => {
 		eventBus.dispatch("remove-notification", id);
 	};
 
-	const handleOnMount = () => {
+	const handleMount = () => {
 		const id = setTimeout(() => {
 			handleRemoveNorification();
 		}, 3000);
@@ -43,10 +43,11 @@ const Notification: React.FC<Props> = (props) => {
 		};
 	};
 
-	useEffect(handleOnMount, []);
+	useEffect(handleMount, []);
 
 	return (
 		<motion.li
+			data-testid='notification'
 			initial={{ opacity: 1, scale: 0 }}
 			animate={{
 				opacity: 1,
@@ -61,11 +62,17 @@ const Notification: React.FC<Props> = (props) => {
 				<div className='col-10 d-flex align-center'>
 					<img className='notification__icon' src={renderIcon(type, icons)} alt={type} />
 
-					<div className='notification__text'>{message}</div>
+					<div data-testid='notification-message' className='notification__text'>
+						{message}
+					</div>
 				</div>
 
 				<div className='col-2 d-flex justify-end'>
-					<button className='notification__btn' onClick={handleRemoveNorification}>
+					<button
+						data-testid='notification-close-btn'
+						className='notification__btn'
+						onClick={handleRemoveNorification}
+					>
 						<img src={dismissIcon} alt='x' />
 					</button>
 				</div>
