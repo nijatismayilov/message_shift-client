@@ -4,7 +4,7 @@ This project is a demo for Real Time Messaging Web Application. This repo repres
 
 ### `React`
 
-UI of the application was written in React according the the component-driven architecture. React Functional Component pattern was used for building components. Reak hooks API was leveraged frequently, while developing the application.
+UI of the application was written in React according to the component-driven architecture. React Functional Component pattern was used for building components. React hooks API was leveraged frequently, while developing the application.
 
 ### `Redux`
 
