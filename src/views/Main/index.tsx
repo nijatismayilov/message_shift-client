@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { useSpring, useTransition, animated, interpolate } from "react-spring";
+import { useSpring, animated, interpolate, SpringConfig } from "react-spring";
 
 import { fetchUserStart } from "store/user/actions";
 import { logoutUserStart } from "store/auth/actions";
 
 import ScrollBar from "components/Scrollbar";
+
+import useListTransition from "hooks/useListTransition";
 
 import generateKey from "utils/generateKey";
 
@@ -29,11 +31,6 @@ const Main: React.FC = () => {
 
 	const handleMount = () => {
 		dispatch(fetchUserStart());
-
-		interval = setInterval(() => {
-			const newList = [...list].sort(() => Math.random() - 0.5);
-			setList(newList);
-		}, 2000);
 	};
 
 	const handleLogout = () => {
@@ -42,7 +39,7 @@ const Main: React.FC = () => {
 
 	const handleAddItem = () => {
 		const newItem: Data = {
-			name: generateKey(),
+			id: generateKey(),
 			description: "Test",
 			background: "linear-gradient(135deg, #c3cfe2 0%, #c3cfe2 100%)",
 			height: 50,
@@ -62,11 +59,12 @@ const Main: React.FC = () => {
 	};
 
 	const handleRefreshInterval = () => {
-		clearInterval(interval);
+		if (interval) clearInterval(interval);
+
 		interval = setInterval(() => {
 			const newList = [...list].sort(() => Math.random() - 0.5);
 			setList(newList);
-		}, 2000);
+		}, 10000);
 	};
 
 	const handleMakeItemFirst = (id: string) => {
@@ -94,40 +92,14 @@ const Main: React.FC = () => {
 		return chatsList.sort((c1, c2) => (c1.date > c2.date ? -1 : 1));
 	}, [chatsList]);
 
-	let height = 0;
-	let width = 0;
-	const transitions = useTransition(
-		list.map((data, idx) => {
-			width += data.width;
-			height = data.height * Math.ceil((idx + 1) / 3);
-			if (width >= 4 * 100) width = 100;
+	const listConfig: SpringConfig = {
+		mass: 10,
+		tension: 170,
+		friction: 25,
+	};
 
-			return {
-				...data,
-				y: height - data.height,
-				x: width - data.width,
-			};
-		}),
-		(d) => d.name,
-		{
-			from: { height: 0, width: 0, opacity: 0 },
-			leave: { height: 0, opacity: 0 },
-			enter: ({ y, x, width, height }) => ({ y, x, width, height, opacity: 1 }),
-			update: ({ y, x, width, height }) => ({ y, x, width, height }),
-		}
-	);
-
-	let heightChats = 0;
-	const chatTransitions = useTransition(
-		chatsListSorted.map((chat) => ({ ...chat, y: (heightChats += chat.height) - chat.height })),
-		(c) => c.id,
-		{
-			from: { height: 0, opacity: 0 },
-			leave: { height: 0, opacity: 0 },
-			enter: ({ y, height: heightChats, width }) => ({ y, height: heightChats, width, opacity: 1 }),
-			update: ({ y, height: heightChats, width }) => ({ y, height: heightChats, width }),
-		}
-	);
+	const { transitions, height, width } = useListTransition(list, 3, listConfig);
+	const { transitions: chatTransitions } = useListTransition(chatsListSorted, 1);
 
 	return (
 		<animated.div style={fade} className='app-main d-flex flex-column align-center justify-start'>
@@ -142,7 +114,7 @@ const Main: React.FC = () => {
 			>
 				{transitions.map(({ item, props, key }, index) => {
 					// @ts-ignore
-					const { x, y, ...rest } = props;
+					const { x, y, scale, ...rest } = props;
 
 					return (
 						<animated.div
@@ -150,9 +122,9 @@ const Main: React.FC = () => {
 							style={{
 								position: "absolute",
 								willChange: "transform, height, opacity",
-								zIndex: data.length - index,
-								transform: interpolate([y, x], (y, x) => {
-									return `translate3d(${x}px, ${y}px, 0)`;
+								zIndex: transitions.length - index,
+								transform: interpolate([y, x, scale], (y, x, scale) => {
+									return `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
 								}),
 								...rest,
 							}}
@@ -209,7 +181,7 @@ const Main: React.FC = () => {
 									style={{
 										position: "absolute",
 										willChange: "transform, height, opacity",
-										zIndex: data.length - index,
+										zIndex: chatTransitions.length - index,
 										transform: interpolate([y], (y) => {
 											return `translate3d(0, ${y}px, 0)`;
 										}),
