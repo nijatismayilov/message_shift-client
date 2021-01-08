@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scrollbar component should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      style="position: relative; overflow: hidden; width: 100%; height: 100%;"
+    >
+      <div
+        class="scrollbar-view-vertical"
+        style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; overflow: scroll; margin-right: 0px; margin-bottom: 0px;"
+      />
+      <div
+        style="position: absolute; height: 6px; display: none; right: 2px; bottom: 2px; left: 2px; border-radius: 3px;"
+      >
+        <div
+          class="scrollbar-thumb-horizontal"
+          style="position: relative; display: block; height: 100%;"
+        />
+      </div>
+      <div
+        style="position: absolute; width: 6px; display: none; right: 2px; bottom: 2px; top: 2px; border-radius: 3px;"
+      >
+        <div
+          class="scrollbar-thumb-vertical"
+          style="position: relative; display: block; width: 100%;"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;
