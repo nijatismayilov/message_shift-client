@@ -1,13 +1,12 @@
-import React, { useRef, memo } from "react";
+import React, { memo } from "react";
 import classnames from "classnames";
-
-import generateKey from "utils/generateKey";
 
 import { inputClassFunc, labelClassFunc, hintClassFunc } from "./classnames";
 
 import "./styles.scss";
 
 interface Props {
+	id: string;
 	type: string;
 	name: string;
 	value: string;
@@ -18,10 +17,8 @@ interface Props {
 }
 
 const TextField: React.FC<Props> = (props) => {
-	const { type, name, value, label, error } = props;
+	const { id, type, name, value, label, error } = props;
 	const { onChange, onBlur } = props;
-
-	const id = useRef(generateKey(name));
 
 	const hasError = error ? true : false;
 	const hasValue = value ? true : false;
@@ -37,7 +34,7 @@ const TextField: React.FC<Props> = (props) => {
 				data-testid='text-field-input'
 				type={type}
 				name={name}
-				id={id.current}
+				id={id}
 				autoComplete='new-password'
 				className={inputClassName}
 				value={value}
@@ -45,7 +42,7 @@ const TextField: React.FC<Props> = (props) => {
 				onBlur={onBlur}
 			/>
 
-			<label data-testid='text-field-label' htmlFor={id.current} className={labelClassName}>
+			<label data-testid='text-field-label' htmlFor={id} className={labelClassName}>
 				{label}
 			</label>
 

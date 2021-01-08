@@ -1,5 +1,9 @@
-const generateKey = (info: string = "info"): string => {
-	return `${new Date().getTime().toString(16)}-${info}-${(Math.random() * 10).toString(16)}`;
+import { v4 as getUUID } from "uuid";
+
+const generateKey = (): string => {
+	const key = getUUID();
+
+	return key;
 };
 
 export default generateKey;

@@ -9,13 +9,13 @@ exports[`Checkbox component should render properly 1`] = `
       <input
         class="checkbox__input"
         data-testid="checkbox-input"
-        id="17638775e30-checkbox-3.be17c8a0520ac"
+        id="00000000-0000-0000-0000-000000000000"
         name="checkbox"
         type="checkbox"
       />
       <label
         class="checkbox__label"
-        for="17638775e30-checkbox-3.be17c8a0520ac"
+        for="00000000-0000-0000-0000-000000000000"
       >
         <span
           class="checkbox__label-indicator"
