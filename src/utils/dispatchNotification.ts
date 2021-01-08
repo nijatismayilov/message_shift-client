@@ -4,9 +4,9 @@ import generateKey from "./generateKey";
 
 import { Notification, NotificationTypes } from "types/Notification";
 
-const dispatchNotification = (info = "default", type: NotificationTypes, message: string) => {
+const dispatchNotification = (type: NotificationTypes, message: string) => {
 	const notification: Notification = {
-		id: generateKey(info),
+		id: generateKey(),
 		type,
 		message,
 	};

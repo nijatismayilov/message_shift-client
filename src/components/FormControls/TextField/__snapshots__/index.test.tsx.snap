@@ -10,7 +10,7 @@ exports[`TextField should render properly 1`] = `
         autocomplete="new-password"
         class="text-field__input text-field__input--error"
         data-testid="text-field-input"
-        id="17638775e03-text-4.ab2cb6d929934"
+        id="00000000-0000-0000-0000-000000000000"
         name="text"
         type="text"
         value="test"
@@ -18,7 +18,7 @@ exports[`TextField should render properly 1`] = `
       <label
         class="text-field__label text-field__label--active"
         data-testid="text-field-label"
-        for="17638775e03-text-4.ab2cb6d929934"
+        for="00000000-0000-0000-0000-000000000000"
       >
         text
       </label>

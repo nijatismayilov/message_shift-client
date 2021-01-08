@@ -8,6 +8,8 @@ import { authPayload } from "store/auth/actions";
 import TextField from "components/FormControls/TextField";
 import Checkbox from "components/FormControls/Checkbox";
 
+import generateKey from "utils/generateKey";
+
 import fadeConfig from "animation/fade";
 
 import { initialValues, validationSchema, validationTiming } from "./signInForm";
@@ -43,6 +45,7 @@ const SignIn: React.FC<Props> = (props) => {
 		<animated.div style={fade} className='w-100'>
 			<form className='sign-in' onSubmit={handleSubmit}>
 				<TextField
+					id={generateKey()}
 					type='email'
 					name='email'
 					label='Your Email'
@@ -53,6 +56,7 @@ const SignIn: React.FC<Props> = (props) => {
 				/>
 
 				<TextField
+					id={generateKey()}
 					type='password'
 					name='password'
 					label='Your Password'
@@ -63,6 +67,7 @@ const SignIn: React.FC<Props> = (props) => {
 				/>
 
 				<Checkbox
+					id={generateKey()}
 					checkhed={values.willStayAuth}
 					name='willStayAuth'
 					label='Keep me signed in'

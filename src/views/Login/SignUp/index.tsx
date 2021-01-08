@@ -7,6 +7,8 @@ import TextField from "components/FormControls/TextField";
 
 import { UserInfo } from "types/User";
 
+import generateKey from "utils/generateKey";
+
 import fadeConfig from "animation/fade";
 
 import { initialValues, validationSchema, validationTiming } from "./signUpForm";
@@ -49,6 +51,7 @@ const SignUp: React.FC<Props> = (props) => {
 		<animated.div style={fade} className='w-100'>
 			<form className='sign-in' onSubmit={handleSubmit}>
 				<TextField
+					id={generateKey()}
 					type='text'
 					name='name'
 					label='Firstname'
@@ -59,6 +62,7 @@ const SignUp: React.FC<Props> = (props) => {
 				/>
 
 				<TextField
+					id={generateKey()}
 					type='text'
 					name='surname'
 					label='Surname'
@@ -69,6 +73,7 @@ const SignUp: React.FC<Props> = (props) => {
 				/>
 
 				<TextField
+					id={generateKey()}
 					type='email'
 					name='email'
 					label='Email'
@@ -79,6 +84,7 @@ const SignUp: React.FC<Props> = (props) => {
 				/>
 
 				<TextField
+					id={generateKey()}
 					type='password'
 					name='password'
 					label='Password'
@@ -89,6 +95,7 @@ const SignUp: React.FC<Props> = (props) => {
 				/>
 
 				<TextField
+					id={generateKey()}
 					type='password'
 					name='confirmPassword'
 					label='Confirm Password'

@@ -39,8 +39,7 @@ axiosInstance.interceptors.response.use(
 	async (error) => {
 		const errorResponse = error.response;
 
-		if (!errorResponse)
-			dispatchNotification("api-request", NotificationTypes.ERROR, "Please try again later");
+		if (!errorResponse) dispatchNotification(NotificationTypes.ERROR, "Please try again later");
 		else if (isAttempUnauthorized(errorResponse)) {
 			store.dispatch(logoutUserSuccess());
 			store.dispatch(clearUserState());
@@ -112,7 +111,7 @@ const resetTokenAndReattemptRequest = async (error: any) => {
 		} = err.response.data;
 
 		if (status === 401 && message === "Please sign in again") {
-			dispatchNotification("refresh-token-expired", NotificationTypes.ERROR, message);
+			dispatchNotification(NotificationTypes.ERROR, message);
 
 			localStorage.removeAccessToken();
 			localStorage.removeRefreshToken();
@@ -144,7 +143,7 @@ const createNewError = (err: any) => {
 		error: { message },
 	} = err.response.data;
 
-	dispatchNotification("api-request", NotificationTypes.ERROR, message);
+	dispatchNotification(NotificationTypes.ERROR, message);
 
 	const newError = new Error(message);
 	throw newError;

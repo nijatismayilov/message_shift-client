@@ -1,16 +1,19 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
+import { NIL } from "uuid";
 
 import TextField from "./index";
 
 const mockHandleChange = jest.fn();
 const mockHandleBlur = jest.fn();
+const mockId = NIL;
 
 describe("TextField", () => {
 	it("should render properly", () => {
 		const { baseElement } = render(
 			<TextField
+				id={mockId}
 				type='text'
 				name='text'
 				value='test'
@@ -33,6 +36,7 @@ describe("TextField", () => {
 
 		render(
 			<TextField
+				id={mockId}
 				type={mockType}
 				name={mockName}
 				value={mockValue}
@@ -58,6 +62,7 @@ describe("TextField", () => {
 	it("should call handleChange", () => {
 		render(
 			<TextField
+				id={mockId}
 				type='text'
 				name='text'
 				value=''

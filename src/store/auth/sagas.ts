@@ -53,7 +53,7 @@ function* registerUserAsync(action: RegisterUserStart) {
 		yield put(registerUserSuccess(accessToken));
 
 		const message = `You were succesfully registered with the email ${email}`;
-		yield call(dispatchNotification, "register", NotificationTypes.SUCCESS, message);
+		yield call(dispatchNotification, NotificationTypes.SUCCESS, message);
 	} catch (err) {
 		yield put(registerUserFailure(err.message));
 	}
@@ -67,7 +67,7 @@ function* logoutUserAsync() {
 		if (!refreshToken) {
 			const message = "There occured a problem while logging you out. Please try again";
 
-			yield call(dispatchNotification, "logout", NotificationTypes.ERROR, message);
+			yield call(dispatchNotification, NotificationTypes.ERROR, message);
 			throw Error(message);
 		}
 
