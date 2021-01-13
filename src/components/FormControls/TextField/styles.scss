@@ -2,14 +2,13 @@
   position: relative;
   width: 100%;
   margin-bottom: 25px;
-  font-family: "Quicksand", sans-serif;
 
   &__input {
     width: 100%;
     padding: 10px 16px;
     color: #2b2c43;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 400;
 
     background-color: #fff;
     border: 1px solid #e7e7e7;
@@ -43,7 +42,7 @@
     transform: translateY(-50%);
     color: #2b2c43;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     transition: all 200ms ease-out;
 
     &--active {
