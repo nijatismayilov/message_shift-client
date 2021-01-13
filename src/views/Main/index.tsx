@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { useSpring, animated, interpolate, SpringConfig } from "react-spring";
+import { useSpring, animated, interpolate } from "react-spring";
 
 import { fetchUserStart } from "store/user/actions";
 import { logoutUserStart } from "store/auth/actions";
@@ -64,7 +64,7 @@ const Main: React.FC = () => {
 		interval = setInterval(() => {
 			const newList = [...list].sort(() => Math.random() - 0.5);
 			setList(newList);
-		}, 10000);
+		}, 1000);
 	};
 
 	const handleMakeItemFirst = (id: string) => {
@@ -92,13 +92,7 @@ const Main: React.FC = () => {
 		return chatsList.sort((c1, c2) => (c1.date > c2.date ? -1 : 1));
 	}, [chatsList]);
 
-	const listConfig: SpringConfig = {
-		mass: 10,
-		tension: 170,
-		friction: 25,
-	};
-
-	const { transitions, height, width } = useListTransition(list, 3, listConfig);
+	const { transitions, height, width } = useListTransition(list, 3);
 	const { transitions: chatTransitions } = useListTransition(chatsListSorted, 1);
 
 	return (
